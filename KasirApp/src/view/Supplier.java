@@ -5,17 +5,40 @@
  */
 package view;
 
+import database.Koneksi;
+import database.SetTabel;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Asus
  */
 public class Supplier extends javax.swing.JInternalFrame {
     
+    ResultSet resultSet;
+    Koneksi connection;
     /**
      * Creates new form Supplier
      */
     public Supplier() {
+        connection = new Koneksi();
         initComponents();
+        getTabel();
+    }
+    
+    public final void getTabel(){
+        String[] namaKolom = {"id_supplier", "nama",
+          "alamat", "no_hp", "keterangan"};
+      resultSet = connection.querySellect(namaKolom, "supplier");
+      tblSupplier.setModel(new SetTabel(resultSet));
+    }
+    
+    public void refreshAll(){
+        tfNama.setText(null);
+        tfAlamat.setText(null);
+        tfNoTelepon.setText(null);
+        tfKeterangan.setText(null);
     }
 
     /**
@@ -37,7 +60,7 @@ public class Supplier extends javax.swing.JInternalFrame {
         jLabel5 = new javax.swing.JLabel();
         tfKeterangan = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblSupplier = new javax.swing.JTable();
         btnAdd = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -59,7 +82,7 @@ public class Supplier extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Keterangan");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblSupplier.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -70,13 +93,33 @@ public class Supplier extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblSupplier.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSupplierMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblSupplier);
 
         btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -158,6 +201,109 @@ public class Supplier extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfNoTeleponActionPerformed
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        
+        String nama = tfNama.getText();
+        String alamat = tfAlamat.getText();
+        String noTelepon = tfNoTelepon.getText();
+        String keterangan = tfKeterangan.getText();
+        
+        if(nama.isEmpty() || alamat.isEmpty() 
+                || noTelepon.isEmpty() || keterangan.isEmpty()){
+            
+            JOptionPane.showMessageDialog(this, "Data masih belum lengkap");
+            
+        }else{
+            
+            String[] column = {"nama", "alamat", "no_hp", "keterangan"};
+            String[] value = {nama, alamat, noTelepon, keterangan};
+            String nameTable = "supplier";
+            
+            connection.queryInsert(nameTable, column, value);
+            connection.closeDatabase();
+            
+            getTabel();
+            refreshAll();
+            
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        
+        String nama = tfNama.getText();
+        String alamat = tfAlamat.getText();
+        String noTelepon = tfNoTelepon.getText();
+        String keterangan = tfKeterangan.getText();
+        
+         if(nama.isEmpty() || alamat.isEmpty() 
+                || noTelepon.isEmpty() || keterangan.isEmpty()){
+            
+            JOptionPane.showMessageDialog(this, "Data masih belum lengkap");
+            
+        }else{
+            
+            int baris = tblSupplier.getSelectedRow();
+            int kolom = 0;
+             
+            String id = String.valueOf(tblSupplier.getValueAt(baris, kolom));
+            String[] column = {"nama", "alamat", "no_hp", "keterangan"};
+            String[] value = {nama, alamat, noTelepon, keterangan};
+            String nameTable = "supplier";
+            String condition = "id_supplier = " + id;
+            
+            connection.queryUppdate(nameTable, column, value, condition);
+            connection.closeDatabase();
+            
+            getTabel();
+            refreshAll();
+            
+        }
+        
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void tblSupplierMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSupplierMouseClicked
+        
+        int baris = tblSupplier.getSelectedRow();
+        
+        String nama = String.valueOf(tblSupplier.getValueAt(baris, 1));
+        String alamat = String.valueOf(tblSupplier.getValueAt(baris, 2));
+        String noTelepon = String.valueOf(tblSupplier.getValueAt(baris, 3));
+        String Keterangan = String.valueOf(tblSupplier.getValueAt(baris, 4));
+        
+        tfNama.setText(nama);
+        tfNoTelepon.setText(noTelepon);
+        tfKeterangan.setText(Keterangan);
+        tfAlamat.setText(alamat);
+        
+    }//GEN-LAST:event_tblSupplierMouseClicked
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        
+        int baris = tblSupplier.getSelectedRow();
+        int kolom = 0;
+        String id = String.valueOf(tblSupplier.getValueAt(baris, kolom));
+        
+        if(JOptionPane.showConfirmDialog(
+                this,
+                "Apakah anda yakin ingin menghapus data ini",
+                "Peringatan!!!",
+                JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION){
+            
+            connection.queryDelete("supplier", "id_supplier = " + id);
+            connection.closeDatabase();
+            
+        }else{
+            
+            return;
+            
+        }
+         
+        getTabel();
+        JOptionPane.showMessageDialog(this,"Data Berhasil di hapus");
+        refreshAll();
+         
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -169,7 +315,7 @@ public class Supplier extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblSupplier;
     private javax.swing.JTextField tfAlamat;
     private javax.swing.JTextField tfKeterangan;
     private javax.swing.JTextField tfNama;
