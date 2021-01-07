@@ -5,17 +5,37 @@
  */
 package view;
 
+import database.Koneksi;
+import database.SetTabel;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Asus
  */
 public class SatuanBarang extends javax.swing.JInternalFrame {
-
+    
+    ResultSet resultSet;
+    Koneksi connection;
+    
     /**
      * Creates new form SatuanBarang
      */
     public SatuanBarang() {
+        connection = new Koneksi();
         initComponents();
+    }
+    
+    private void getTable(){
+        String[] namaKolom = {"No_id","Nama_Satuan"};
+        String nameTable = "satuanbarang";
+        resultSet = connection.querySellect(namaKolom, nameTable);
+        tblSatuanBarang.setModel(new SetTabel(resultSet));
+    }
+    
+    private void refreshAll(){
+        tfNama.setText(null);
     }
 
     /**
@@ -32,7 +52,7 @@ public class SatuanBarang extends javax.swing.JInternalFrame {
         tfNama = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblSatuanBarang = new javax.swing.JTable();
         btnEdit = new javax.swing.JButton();
         btnDellete = new javax.swing.JButton();
 
@@ -41,23 +61,43 @@ public class SatuanBarang extends javax.swing.JInternalFrame {
         jLabel2.setText("Nama Satuan");
 
         btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblSatuanBarang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Title 1", "Title 2"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblSatuanBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSatuanBarangMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblSatuanBarang);
 
         btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnDellete.setText("Dellete");
+        btnDellete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDelleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -106,6 +146,87 @@ public class SatuanBarang extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        
+        String namaSatuan = tfNama.getText();
+        
+        if(namaSatuan.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Nama Satuan tidak boleh kosong");
+        }else{
+            String[] column = {"Nama_Satuan"};
+            String[] value = {namaSatuan};
+            String nameTable = "satuanbarang";
+            
+            connection.queryInsert(nameTable, column, value);
+            connection.closeDatabase();
+            
+            getTable();
+            refreshAll();
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        
+        String namaSatuan = tfNama.getText();
+        
+        if(namaSatuan.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Nama Satuan tidak boleh kosong");
+        }else{
+            
+            int baris = tblSatuanBarang.getSelectedRow();
+            int kolom = 0;
+            
+            String id = String.valueOf(tblSatuanBarang.getValueAt(baris, kolom));
+            String[] column = {"Nama_Satuan"};
+            String[] value = {namaSatuan};
+            String nameTable = "satuanbarang";
+            String condition = "No_id = " + id;
+            
+            connection.queryUppdate(nameTable, column, value, condition);
+            connection.closeDatabase();
+            
+            getTable();
+            refreshAll();
+        }
+        
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnDelleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelleteActionPerformed
+        
+        int baris = tblSatuanBarang.getSelectedRow();
+        int kolom = 0;
+        String id = String.valueOf(tblSatuanBarang.getValueAt(baris, kolom));
+        
+         boolean confirmation = JOptionPane.showConfirmDialog(
+                this,
+                "Apakah anda yakin ingin menghapus data ini",
+                "Peringatan!!!",
+                JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION;
+         
+         if(confirmation){
+             
+            String nameTable = "satuanbarang";
+            String condition = "No_id = " + id;
+            
+            connection.queryDelete(nameTable, condition);
+            connection.closeDatabase();
+         }else{
+             return;
+         }
+         
+        getTable();
+        refreshAll();
+    }//GEN-LAST:event_btnDelleteActionPerformed
+
+    private void tblSatuanBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSatuanBarangMouseClicked
+       
+        int baris = tblSatuanBarang.getSelectedRow();
+        
+        String namaSatuan = String.valueOf(tblSatuanBarang.getValueAt(baris, 1));
+        
+        tfNama.setText(namaSatuan);
+    }//GEN-LAST:event_tblSatuanBarangMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -114,7 +235,7 @@ public class SatuanBarang extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblSatuanBarang;
     private javax.swing.JTextField tfNama;
     // End of variables declaration//GEN-END:variables
 }
