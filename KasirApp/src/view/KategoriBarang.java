@@ -6,9 +6,10 @@
 package view;
 
 import database.Koneksi;
-import database.SetTabel;
+import java.sql.SQLException;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -30,10 +31,33 @@ public class KategoriBarang extends javax.swing.JInternalFrame {
     }
     
     private void getTabel(){
-        String[] namaKolom = {"No_id","Kategori"};
-        String namaTabel = "kategoribarang";
-        resultSet = connection.querySellect(namaKolom, namaTabel);
-        tblKategori.setModel(new SetTabel(resultSet));
+        
+       DefaultTableModel model = new DefaultTableModel();
+       model.addColumn("No");
+       model.addColumn("ID");
+       model.addColumn("Nama Kategori");
+       
+       String nameTable = "kategoribarang";
+       String[] namaKolom = {"No_id","Kategori"};
+       
+       try{
+           
+           int no = 1;
+           resultSet = connection.querySellect(namaKolom, nameTable);
+           
+           while(resultSet.next()){
+               model.addRow(new Object[]{
+                   no++,
+                   resultSet.getString(1),
+                   resultSet.getString(2)
+               });
+           }
+           
+           connection.closeDatabase();
+           tblKategori.setModel(model);
+       }catch(SQLException e){
+           System.out.println("Error try to poppulate table : " + e.getMessage());
+       }
     }
     
     private void refreshAll(){
@@ -183,7 +207,7 @@ public class KategoriBarang extends javax.swing.JInternalFrame {
         }else{
             
             int baris = tblKategori.getSelectedRow();
-            int kolom = 0;
+            int kolom = 1;
             
             String id = String.valueOf(tblKategori.getValueAt(baris, kolom));
             String[] column = {"Kategori"};
@@ -203,7 +227,7 @@ public class KategoriBarang extends javax.swing.JInternalFrame {
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         
         int baris = tblKategori.getSelectedRow();
-        int kolom = 0;
+        int kolom = 1;
         String id = String.valueOf(tblKategori.getValueAt(baris, kolom));
         boolean confirmation = JOptionPane.showConfirmDialog(
                 this,
@@ -228,7 +252,7 @@ public class KategoriBarang extends javax.swing.JInternalFrame {
         
         int baris = tblKategori.getSelectedRow();
         
-        String kategori = String.valueOf(tblKategori.getValueAt(baris, 1));
+        String kategori = String.valueOf(tblKategori.getValueAt(baris, 2));
         
         tfKategori.setText(kategori);
     }//GEN-LAST:event_tblKategoriMouseClicked

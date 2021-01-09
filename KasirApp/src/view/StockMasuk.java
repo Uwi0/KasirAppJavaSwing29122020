@@ -5,19 +5,94 @@
  */
 package view;
 
+import database.Koneksi;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Asus
  */
 public class StockMasuk extends javax.swing.JInternalFrame {
-
+    
+    ResultSet resultSet;
+    Koneksi connection;
+    
     /**
      * Creates new form Stock
      */
     public StockMasuk() {
+        connection = new Koneksi();
         initComponents();
+        populateBarcodeComboBox();
+        populateTableStockMasuk();
     }
-
+    
+    private void populateBarcodeComboBox(){
+        ArrayList barcode;
+        barcode = new ArrayList<String>();
+        String query = "SELECT barcode FROM `databarang`";
+        
+        resultSet = connection.eksekusiQuery(query);
+        
+        try{
+            while(resultSet.next()){
+                barcode.add(resultSet.getString(1));
+            }
+        }catch(SQLException e){
+            System.out.println("Error try to populate combobox barcode" 
+                    + e.getMessage());
+        }
+        connection.closeDatabase();
+        barcode.forEach((i) -> cbxBarcode.addItem(i.toString()));
+    }
+    
+    private void populateTableStockMasuk(){
+        
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("No");
+        model.addColumn("Tanggal Masuk");
+        model.addColumn("Nomor Barcode");
+        model.addColumn("Jumlah");
+        model.addColumn("Keterangan");
+        
+        String nameTable = "stokmasuk";
+        String[] namaKolom = {"tanggal_masuk","barcode","jumlah","keterangan"};
+        
+        try{
+            int no = 1;
+            resultSet = connection.querySellect(namaKolom, nameTable);
+            
+            while(resultSet.next()){
+                model.addRow(new Object[]{
+                    no++,
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4)
+                });
+            }
+            
+            connection.closeDatabase();
+            tblStockMasuk.setModel(model);
+            
+        }catch(SQLException e){
+            System.out.println("Error tyr to poppulate table" + e.getMessage());
+        }
+    }
+    
+    private void refreshAll(){
+        dtChoser.setDate(null);
+        cbxBarcode.setSelectedItem("pilih");
+        tfJumlah.setText(null);
+        tfKeterangan.setText(null);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,7 +106,7 @@ public class StockMasuk extends javax.swing.JInternalFrame {
         jLabel2 = new javax.swing.JLabel();
         dtChoser = new com.toedter.calendar.JDateChooser();
         jLabel3 = new javax.swing.JLabel();
-        cbBarcode = new javax.swing.JComboBox<>();
+        cbxBarcode = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         tfJumlah = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -48,13 +123,18 @@ public class StockMasuk extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Barcode");
 
-        cbBarcode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxBarcode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pilih" }));
 
         jLabel4.setText("jumlah");
 
         jLabel5.setText("Keterangan");
 
         btnTambah.setText("Tambah");
+        btnTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTambahActionPerformed(evt);
+            }
+        });
 
         tblStockMasuk.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -67,11 +147,26 @@ public class StockMasuk extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblStockMasuk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblStockMasukMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblStockMasuk);
 
         btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnHapus.setText("Hapus");
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -89,7 +184,7 @@ public class StockMasuk extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel2)
                                     .addComponent(dtChoser, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
                                     .addComponent(jLabel3)
-                                    .addComponent(cbBarcode, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(cbxBarcode, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(55, 55, 55)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel4)
@@ -125,7 +220,7 @@ public class StockMasuk extends javax.swing.JInternalFrame {
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tfKeterangan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnTambah)
@@ -141,12 +236,127 @@ public class StockMasuk extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
+       
+        Date date = (Date) dtChoser.getDate();
+        String jumlah = tfJumlah.getText();
+        String keterangan = tfKeterangan.getText();
+        String tanggal = new java.sql.Date(date.getTime()).toString();
+        String barcode = (String) cbxBarcode.getSelectedItem();
+        
+        if(jumlah.isEmpty() || keterangan.isEmpty() 
+                || cbxBarcode.getSelectedItem().equals("pilih") 
+                || tanggal.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Data tidak boleh kosong");
+        }else{
+            
+            String[] column = {"tanggal_masuk","barcode","jumlah","keterangan"};
+            String[] value = {tanggal, barcode, jumlah, keterangan};
+            String nameTable = "stokmasuk";
+            
+            connection.queryInsert(nameTable, column, value);
+            connection.closeDatabase();
+            
+            populateTableStockMasuk();
+            refreshAll();
+            
+        }
+    }//GEN-LAST:event_btnTambahActionPerformed
+
+    private void tblStockMasukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblStockMasukMouseClicked
+        
+        int baris = tblStockMasuk.getSelectedRow();
+        int kolomTanggal = 1;
+        int kolomBarcode = 2;
+        int kolomJumlah = 3;
+        int kolomKeterangan = 4;
+        
+        String tanggal = 
+                String.valueOf(tblStockMasuk.getValueAt(baris, kolomTanggal));
+        String barcode = 
+                String.valueOf(tblStockMasuk.getValueAt(baris, kolomBarcode));
+        String jumlah = 
+                String.valueOf(tblStockMasuk.getValueAt(baris, kolomJumlah));
+        String keterangan = 
+                String.valueOf(tblStockMasuk.getValueAt(baris, kolomKeterangan));
+        
+        Date date = null;
+        
+        try{
+            date = new SimpleDateFormat("yyyy-MM-dd").parse(tanggal);
+        }catch(ParseException e){
+            System.out.println("Error try to Parse Tanggal value : " + e.getMessage());
+        }
+        
+        dtChoser.setDate(date);
+        cbxBarcode.setSelectedItem(barcode);
+        tfJumlah.setText(jumlah);
+        tfKeterangan.setText(keterangan);
+    }//GEN-LAST:event_tblStockMasukMouseClicked
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        
+        Date date = (Date) dtChoser.getDate();
+        String jumlah = tfJumlah.getText();
+        String keterangan = tfKeterangan.getText();
+        String tanggal = new java.sql.Date(date.getTime()).toString();
+        String barcode = (String) cbxBarcode.getSelectedItem();
+        
+        if(jumlah.isEmpty() || keterangan.isEmpty() 
+                || cbxBarcode.getSelectedItem().equals("pilih") 
+                || tanggal.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Data tidak boleh kosong");
+        }else{
+            
+            int baris = tblStockMasuk.getSelectedRow();
+            int kolom = 2;
+            
+            String kodeBarcode = String.valueOf(tblStockMasuk.getValueAt(baris, kolom));
+            String[] column = {"tanggal_masuk","barcode","jumlah","keterangan"};
+            String[] value = {tanggal, barcode, jumlah, keterangan};
+            String nameTable = "stokmasuk";
+            String condition = "barcode = " + kodeBarcode;
+            
+            connection.queryUppdate(nameTable, column, value, condition);
+            connection.closeDatabase();
+            
+            populateTableStockMasuk();
+            refreshAll();
+        }
+        
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        
+        int baris = tblStockMasuk.getSelectedRow();
+        int kolom = 2;
+        String kodeBarcode = String.valueOf(tblStockMasuk.getValueAt(baris, kolom));
+        boolean confirmation = JOptionPane.showConfirmDialog(
+                this,
+                "Apakah anda yakin ingin menghapus data ini",
+                "Peringatan!!!",
+                JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION;
+        
+        if(confirmation){
+            
+            String nameTable = "stokmasuk";
+            String condition = "barcode = " + kodeBarcode;
+             
+            connection.queryDelete(nameTable,condition);
+        }
+        
+        connection.closeDatabase();
+        populateTableStockMasuk();
+        JOptionPane.showMessageDialog(this,"Data Berhasil di hapus");
+        refreshAll();
+    }//GEN-LAST:event_btnHapusActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnTambah;
-    private javax.swing.JComboBox<String> cbBarcode;
+    private javax.swing.JComboBox<String> cbxBarcode;
     private com.toedter.calendar.JDateChooser dtChoser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

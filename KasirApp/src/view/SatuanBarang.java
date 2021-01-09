@@ -8,7 +8,9 @@ package view;
 import database.Koneksi;
 import database.SetTabel;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -25,13 +27,37 @@ public class SatuanBarang extends javax.swing.JInternalFrame {
     public SatuanBarang() {
         connection = new Koneksi();
         initComponents();
+        getTable();
     }
     
     private void getTable(){
+        
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("No");
+        model.addColumn("ID");
+        model.addColumn("Nama Satuan");
+        
         String[] namaKolom = {"No_id","Nama_Satuan"};
         String nameTable = "satuanbarang";
-        resultSet = connection.querySellect(namaKolom, nameTable);
-        tblSatuanBarang.setModel(new SetTabel(resultSet));
+        
+        try{
+            
+            int no = 1;
+            resultSet = connection.querySellect(namaKolom, nameTable);
+            
+            while(resultSet.next()){
+                model.addRow(new Object[]{
+                    no++,
+                    resultSet.getString(1),
+                    resultSet.getString(2)
+                });
+            }
+            
+            connection.closeDatabase();
+            tblSatuanBarang.setModel(model);
+        }catch(SQLException e){
+            System.out.println("Error try to populate table : " + e.getMessage());
+        }
     }
     
     private void refreshAll(){
@@ -174,7 +200,7 @@ public class SatuanBarang extends javax.swing.JInternalFrame {
         }else{
             
             int baris = tblSatuanBarang.getSelectedRow();
-            int kolom = 0;
+            int kolom = 1;
             
             String id = String.valueOf(tblSatuanBarang.getValueAt(baris, kolom));
             String[] column = {"Nama_Satuan"};
@@ -194,7 +220,7 @@ public class SatuanBarang extends javax.swing.JInternalFrame {
     private void btnDelleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelleteActionPerformed
         
         int baris = tblSatuanBarang.getSelectedRow();
-        int kolom = 0;
+        int kolom = 1;
         String id = String.valueOf(tblSatuanBarang.getValueAt(baris, kolom));
         
          boolean confirmation = JOptionPane.showConfirmDialog(
@@ -222,7 +248,7 @@ public class SatuanBarang extends javax.swing.JInternalFrame {
        
         int baris = tblSatuanBarang.getSelectedRow();
         
-        String namaSatuan = String.valueOf(tblSatuanBarang.getValueAt(baris, 1));
+        String namaSatuan = String.valueOf(tblSatuanBarang.getValueAt(baris, 2));
         
         tfNama.setText(namaSatuan);
     }//GEN-LAST:event_tblSatuanBarangMouseClicked
