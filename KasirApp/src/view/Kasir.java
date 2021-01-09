@@ -247,149 +247,148 @@ public class Kasir extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPengaturanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPengaturanActionPerformed
-       
+
         dpDesktopView.removeAll();
         dpDesktopView.repaint();
-        
+
         Pengaturan pengaturan = new Pengaturan();
         pengaturan.setVisible(true);
-        
+
         try{
             pengaturan.setMaximum(true);
         }catch(PropertyVetoException e){
-            System.out.println("populate view Pengaturan Error: " 
-                    + e.getMessage());
+            System.out.println("populate view Pengaturan Error: "
+                + e.getMessage());
         }
-        
-        
+
         dpDesktopView.add(pengaturan);
     }//GEN-LAST:event_btnPengaturanActionPerformed
 
-    private void btnSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupplierActionPerformed
-        
+    private void btnLaporanPenjualanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaporanPenjualanActionPerformed
+
         dpDesktopView.removeAll();
         dpDesktopView.repaint();
-        
-        Supplier supplier = new Supplier();
-        supplier.setVisible(true);
-        
-        dpDesktopView.add(supplier);
+
+        LaporanPenjualan laporanPenjualan = new LaporanPenjualan();
+        laporanPenjualan.setVisible(true);
+
         try{
-            supplier.setMaximum(true);
+            laporanPenjualan.setMaximum(true);
         }catch(PropertyVetoException e){
-            System.out.println("populate view supplier Error : " 
-                    + e.getMessage());
+            System.out.println("populate view Laporan Penjualan Error: "
+                + e.getMessage());
         }
-        
-    }//GEN-LAST:event_btnSupplierActionPerformed
 
-    private void btnKategoriBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKategoriBarangActionPerformed
-       
-       dpDesktopView.removeAll();
-       dpDesktopView.repaint();
-       
-       KategoriBarang kategoriBarang = new KategoriBarang();
-       kategoriBarang.setVisible(true);
-       
-       try{
-           kategoriBarang.setMaximum(true);
-       }catch(PropertyVetoException e){
-           System.out.println("populate view kategori barang Error: " 
-                   + e.getMessage());
-       }
-       
-       dpDesktopView.add(kategoriBarang);
-       
-    }//GEN-LAST:event_btnKategoriBarangActionPerformed
-
-    private void btnSatuanBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSatuanBarangActionPerformed
-        
-        dpDesktopView.removeAll();
-        dpDesktopView.repaint();
-        
-        SatuanBarang satuanBarang = new SatuanBarang();
-        satuanBarang.setVisible(true);
-        
-        try{
-            satuanBarang.setMaximum(true);
-        }catch(PropertyVetoException e){
-            System.out.println("populate view kategori barang Error: "
-            + e.getMessage());
-        }
-        
-        dpDesktopView.add(satuanBarang);
-    }//GEN-LAST:event_btnSatuanBarangActionPerformed
-
-    private void btnBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBarangActionPerformed
-        
-        dpDesktopView.removeAll();
-        dpDesktopView.repaint();
-        
-        Barang barang = new Barang();
-        barang.setVisible(true);
-        
-        try{
-            barang.setMaximum(true);
-        }catch(PropertyVetoException exception){
-            System.out.println("populate view Barang Error : " 
-                    + exception.getMessage());
-        }
-        
-        dpDesktopView.add(barang);
-        
-    }//GEN-LAST:event_btnBarangActionPerformed
-
-    private void btnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStockActionPerformed
-        
-        dpDesktopView.removeAll();
-        dpDesktopView.repaint();
-        
-        Stock stock = new Stock();
-        stock.setVisible(true);
-        
-        try{
-            stock.setMaximum(true);
-        }catch(PropertyVetoException e){
-            System.out.println("populate view Stock Error: " + e.getMessage());
-        }
-        
-        dpDesktopView.add(stock);
-    }//GEN-LAST:event_btnStockActionPerformed
+        dpDesktopView.add(laporanPenjualan);
+    }//GEN-LAST:event_btnLaporanPenjualanActionPerformed
 
     private void btnTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaksiActionPerformed
-        
+
         dpDesktopView.removeAll();
         dpDesktopView.repaint();
-        
+
         Transaksi transaksi = new Transaksi();
         transaksi.setVisible(true);
-        
+
         try{
             transaksi.setMaximum(true);
         }catch(PropertyVetoException e){
             System.out.println("populate view Transaksi Error : " + e.getMessage());
         }
-        
+
         dpDesktopView.add(transaksi);
     }//GEN-LAST:event_btnTransaksiActionPerformed
 
-    private void btnLaporanPenjualanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaporanPenjualanActionPerformed
-        
+    private void btnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStockActionPerformed
+
         dpDesktopView.removeAll();
         dpDesktopView.repaint();
-        
-        LaporanPenjualan laporanPenjualan = new LaporanPenjualan();
-        laporanPenjualan.setVisible(true);
-        
+
+        Stock stock = new Stock();
+        stock.setVisible(true);
+
         try{
-            laporanPenjualan.setMaximum(true);
+            stock.setMaximum(true);
         }catch(PropertyVetoException e){
-            System.out.println("populate view Laporan Penjualan Error: " 
-                    + e.getMessage());
+            System.out.println("populate view Stock Error: " + e.getMessage());
         }
-        
-        dpDesktopView.add(laporanPenjualan);
-    }//GEN-LAST:event_btnLaporanPenjualanActionPerformed
+
+        dpDesktopView.add(stock);
+    }//GEN-LAST:event_btnStockActionPerformed
+
+    private void btnBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBarangActionPerformed
+
+        dpDesktopView.removeAll();
+        dpDesktopView.repaint();
+
+        Barang barang = new Barang();
+        barang.setVisible(true);
+
+        try{
+            barang.setMaximum(true);
+        }catch(PropertyVetoException exception){
+            System.out.println("populate view Barang Error : "
+                + exception.getMessage());
+        }
+
+        dpDesktopView.add(barang);
+
+    }//GEN-LAST:event_btnBarangActionPerformed
+
+    private void btnSatuanBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSatuanBarangActionPerformed
+
+        dpDesktopView.removeAll();
+        dpDesktopView.repaint();
+
+        SatuanBarang satuanBarang = new SatuanBarang();
+        satuanBarang.setVisible(true);
+
+        try{
+            satuanBarang.setMaximum(true);
+        }catch(PropertyVetoException e){
+            System.out.println("populate view kategori barang Error: "
+                + e.getMessage());
+        }
+
+        dpDesktopView.add(satuanBarang);
+    }//GEN-LAST:event_btnSatuanBarangActionPerformed
+
+    private void btnKategoriBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKategoriBarangActionPerformed
+
+        dpDesktopView.removeAll();
+        dpDesktopView.repaint();
+
+        KategoriBarang kategoriBarang = new KategoriBarang();
+        kategoriBarang.setVisible(true);
+
+        try{
+            kategoriBarang.setMaximum(true);
+        }catch(PropertyVetoException e){
+            System.out.println("populate view kategori barang Error: "
+                + e.getMessage());
+        }
+
+        dpDesktopView.add(kategoriBarang);
+
+    }//GEN-LAST:event_btnKategoriBarangActionPerformed
+
+    private void btnSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupplierActionPerformed
+
+        dpDesktopView.removeAll();
+        dpDesktopView.repaint();
+
+        Supplier supplier = new Supplier();
+        supplier.setVisible(true);
+
+        dpDesktopView.add(supplier);
+        try{
+            supplier.setMaximum(true);
+        }catch(PropertyVetoException e){
+            System.out.println("populate view supplier Error : "
+                + e.getMessage());
+        }
+
+    }//GEN-LAST:event_btnSupplierActionPerformed
 
     /**
      * @param args the command line arguments
