@@ -5,19 +5,116 @@
  */
 package view;
 
+import database.Koneksi;
+import java.util.ArrayList;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Asus
  */
 public class Barang extends javax.swing.JInternalFrame {
-
+    
+    Koneksi connection;
+    ResultSet resultset;
+    
     /**
      * Creates new form Barang
      */
     public Barang() {
+        connection = new Koneksi();
         initComponents();
+        populateKategoryComboBox();
+        populateSatuanProdukComboBox();
+        getTableBarang();
     }
-
+    
+    private void populateKategoryComboBox(){
+        ArrayList kategori;
+        kategori = new ArrayList<String>();
+        String nameTable = "kategoribarang";
+        String[] namaKolom = {"Kategori"};
+        
+        resultset = connection.querySellect(namaKolom, nameTable);
+        
+        try{
+            while(resultset.next()){
+                kategori.add(resultset.getString(1));
+            }
+        }catch(SQLException e){
+            System.out.println("Error try to populate combobox category" 
+                    + e.getMessage());
+        }
+        connection.closeDatabase();
+        kategori.forEach((i) -> cbxKategori.addItem((String) i));
+    }
+    
+    private void populateSatuanProdukComboBox(){
+        ArrayList namaSatuan;
+        namaSatuan = new ArrayList<String>();
+        String nameTable = "satuanbarang";
+        String[] namaKolom = {"Nama_Satuan"};
+        
+        resultset = connection.querySellect(namaKolom, nameTable);
+        
+        try{
+            while(resultset.next()){
+                namaSatuan.add(resultset.getString(1));
+            }
+        }catch(SQLException e){
+            System.out.println("Error try to populate combobox category" 
+                    + e.getMessage());
+        }
+        connection.closeDatabase();
+        namaSatuan.forEach((i) -> cbxSatuanProduk.addItem((String) i));
+    }
+    
+    private void getTableBarang(){
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("No");
+        model.addColumn("Nomor Barcode");
+        model.addColumn("Nama Produk");
+        model.addColumn("Kategori Produk");
+        model.addColumn("Satuan Produk");
+        model.addColumn("Stock");
+        model.addColumn("Harga Produk");
+        
+        String nameTable = "databarang";
+        String[] namaKolom = 
+        {"barcode","nama_barang","kategori_produk","satuan","stok","harga"};
+        
+        try{
+            int no = 1;
+            resultset = connection.querySellect(namaKolom, nameTable);
+            while(resultset.next()){
+                model.addRow(new Object[]{
+                    no++,
+                    resultset.getString(1),
+                    resultset.getString(2),
+                    resultset.getString(3),
+                    resultset.getString(4),
+                    resultset.getString(5),
+                    resultset.getString(6)
+                });
+            }
+            connection.closeDatabase();
+            tblBarang.setModel(model);
+            
+        }catch(SQLException e){
+            System.out.println("Error tyr to poppulate table" + e.getMessage());
+        }
+    }
+    
+    private void refreshAll(){
+        tfNamaProduk.setText(null);
+        tfNomorBarcode.setText(null);
+        tfHarga.setText(null);
+        tfStockProduk.setText(null);
+        cbxKategori.setSelectedItem("pilih");
+        cbxSatuanProduk.setSelectedItem("pilih");
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -60,17 +157,22 @@ public class Barang extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Kategori Produk");
 
-        cbxKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxKategori.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pilih" }));
 
         jLabel5.setText("Satuan Produk");
 
-        cbxSatuanProduk.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxSatuanProduk.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pilih" }));
 
         jLabel6.setText("Harga Produk");
 
         jLabel7.setText("Stock Produk");
 
         btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         tblBarang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -83,11 +185,26 @@ public class Barang extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblBarangMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblBarang);
 
         btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnHapus.setText("Hapus");
+        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHapusActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -145,9 +262,9 @@ public class Barang extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfNamaProduk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfHarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tfHarga, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfNamaProduk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -173,6 +290,123 @@ public class Barang extends javax.swing.JInternalFrame {
     private void tfNamaProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNamaProdukActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfNamaProdukActionPerformed
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        
+        String nomorBarcode = tfNomorBarcode.getText();
+        String namaProduk = tfNamaProduk.getText();
+        String hargaProduk = tfHarga.getText();
+        String stock = tfStockProduk.getText();
+        
+        if(nomorBarcode.isEmpty()|| namaProduk.isEmpty() || hargaProduk.isEmpty()
+                || cbxKategori.getSelectedItem().equals("pilih") 
+                || cbxSatuanProduk.getSelectedItem().equals("pilih") 
+                || stock.isEmpty()){
+            JOptionPane.showMessageDialog(this, "data tidak boleh kosong");
+        }else{
+            String[] column = {"barcode","nama_barang",
+                "kategori_produk","satuan","stok","harga"};
+            String[] value = {nomorBarcode,namaProduk,
+                cbxKategori.getSelectedItem().toString(),
+                cbxSatuanProduk.getSelectedItem().toString(),stock,hargaProduk};
+            String nameTable = "databarang";
+            
+            connection.queryInsert(nameTable, column, value);
+            connection.closeDatabase();
+        }
+        
+        refreshAll();
+        getTableBarang();
+        
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        
+        String nomorBarcode = tfNomorBarcode.getText();
+        String namaProduk = tfNamaProduk.getText();
+        String hargaProduk = tfHarga.getText();
+        String stock = tfStockProduk.getText();
+        
+        if(nomorBarcode.isEmpty()|| namaProduk.isEmpty() || hargaProduk.isEmpty()
+                || cbxKategori.getSelectedItem().equals("pilih") 
+                || cbxSatuanProduk.getSelectedItem().equals("pilih") 
+                || stock.isEmpty()){
+            JOptionPane.showMessageDialog(this, "data tidak boleh kosong");
+        }else{
+            
+            int baris = tblBarang.getSelectedRow();
+            int kolom = 1;
+            
+            String barcode = String.valueOf(tblBarang.getValueAt(baris, kolom));
+            String[] column = {"barcode","nama_barang",
+                "kategori_produk","satuan","stok","harga"};
+            String[] value = {nomorBarcode,namaProduk,
+                cbxKategori.getSelectedItem().toString(),
+                cbxSatuanProduk.getSelectedItem().toString(),stock,hargaProduk};
+            String nameTable = "databarang";
+            
+            connection.queryUppdate(nameTable, column, value, "barcode = " + barcode);
+            connection.closeDatabase();
+            
+            getTableBarang();
+            refreshAll();
+        }
+        
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void tblBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBarangMouseClicked
+        
+        int baris = tblBarang.getSelectedRow();
+        int kolomBarcode = 1;
+        int kolomNama = 2;
+        int kolomKategori = 3;
+        int kolomSatuanProduk = 4;
+        int kolomStock = 5;
+        int kolomHargaProduk = 6;
+        
+        String barcode = 
+                String.valueOf(tblBarang.getValueAt(baris, kolomBarcode));
+        String nama = String.valueOf(tblBarang.getValueAt(baris, kolomNama));
+        String kategori = String.valueOf(tblBarang.getValueAt(baris, kolomKategori));
+        String stock = String.valueOf(tblBarang.getValueAt(baris, kolomStock));
+        String satuanProduk = 
+                String.valueOf(tblBarang.getValueAt(baris, kolomSatuanProduk));
+        String harga = String.valueOf(tblBarang.getValueAt(baris, kolomHargaProduk));
+        
+        tfNomorBarcode.setText(barcode);
+        tfNamaProduk.setText(nama);
+        tfHarga.setText(harga);
+        tfStockProduk.setText(stock);
+        cbxKategori.setSelectedItem(kategori);
+        cbxSatuanProduk.setSelectedItem(satuanProduk);
+        
+        
+    }//GEN-LAST:event_tblBarangMouseClicked
+
+    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+        
+        int baris = tblBarang.getSelectedRow();
+        int kolom = 1;
+        String barcode = String.valueOf(tblBarang.getValueAt(baris, kolom));
+        boolean confirmation = JOptionPane.showConfirmDialog(
+                this,
+                "Apakah anda yakin ingin menghapus data ini",
+                "Peringatan!!!",
+                JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION;
+        
+        if(confirmation){
+            String nameTable = "databarang";
+            String condition = "barcode = " + barcode;
+            
+            connection.queryDelete(nameTable,condition);
+            
+        }
+        
+        connection.closeDatabase();
+        getTableBarang();
+        JOptionPane.showMessageDialog(this,"Data Berhasil di hapus");
+        refreshAll();
+    }//GEN-LAST:event_btnHapusActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
