@@ -9,12 +9,12 @@ package view.fawwaz;
  *
  * @author Mojave
  */
-public class satuan_produk extends javax.swing.JInternalFrame {
+public class KategoriProduk extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form kategori_produk
      */
-    public satuan_produk() {
+    public KategoriProduk() {
         initComponents();
     }
 
@@ -43,10 +43,10 @@ public class satuan_produk extends javax.swing.JInternalFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Poppins SemiBold", 1, 18)); // NOI18N
-        jLabel1.setText("Menu Satuan Produk");
+        jLabel1.setText("Menu Kategori Produk");
 
         jLabel2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jLabel2.setText("Nama Satuan");
+        jLabel2.setText("Nama Kategori");
 
         jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
         jTextField1.addActionListener(new java.awt.event.ActionListener() {

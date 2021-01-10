@@ -9,12 +9,12 @@ package view.fawwaz;
  *
  * @author Mojave
  */
-public class bayar extends javax.swing.JInternalFrame {
+public class Bayar extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form kategori_produk
      */
-    public bayar() {
+    public Bayar() {
         initComponents();
     }
 

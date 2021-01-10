@@ -9,12 +9,12 @@ package view.fawwaz;
  *
  * @author Mojave
  */
-public class stok_keluar extends javax.swing.JInternalFrame {
+public class StokMasuk extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form kategori_produk
      */
-    public stok_keluar() {
+    public StokMasuk() {
         initComponents();
     }
 
@@ -49,7 +49,7 @@ public class stok_keluar extends javax.swing.JInternalFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Poppins SemiBold", 1, 18)); // NOI18N
-        jLabel1.setText("Menu Stok Keluar");
+        jLabel1.setText("Menu Stok Masuk");
 
         jLabel2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel2.setText("Tanggal");

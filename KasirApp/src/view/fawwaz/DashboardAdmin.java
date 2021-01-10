@@ -10,10 +10,10 @@ package view.fawwaz;
  *
  * @author Mojave
  */
-public class dashboard_admin extends javax.swing.JFrame {
+public class DashboardAdmin extends javax.swing.JFrame {
 
     /** Creates new form dashboard_admin */
-    public dashboard_admin() {
+    public DashboardAdmin() {
         initComponents();
     }
 
@@ -36,21 +36,21 @@ public class dashboard_admin extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        btnKetgoriProduk = new javax.swing.JLabel();
+        btnSatuanProduk = new javax.swing.JLabel();
+        btnProduk = new javax.swing.JLabel();
+        btnStokMasuk = new javax.swing.JLabel();
+        btnStokKeluar = new javax.swing.JLabel();
+        btnTransaksi = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        btnLaporanPenjualan = new javax.swing.JLabel();
+        btnSupplier = new javax.swing.JLabel();
+        btnPengaturan = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jDesktopPanel = new javax.swing.JPanel();
+        dpWindowsView = new javax.swing.JPanel();
 
         jPanel7.setBackground(new java.awt.Color(7, 29, 88));
 
@@ -123,51 +123,51 @@ public class dashboard_admin extends javax.swing.JFrame {
             .addGap(0, 37, Short.MAX_VALUE)
         );
 
-        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel4.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Bag.png"))); // NOI18N
-        jLabel4.setText("   Kategori Produk");
-        jLabel4.setToolTipText("");
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnKetgoriProduk.setBackground(new java.awt.Color(255, 255, 255));
+        btnKetgoriProduk.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnKetgoriProduk.setForeground(new java.awt.Color(255, 255, 255));
+        btnKetgoriProduk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Bag.png"))); // NOI18N
+        btnKetgoriProduk.setText("   Kategori Produk");
+        btnKetgoriProduk.setToolTipText("");
+        btnKetgoriProduk.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
+                btnKetgoriProdukMouseClicked(evt);
             }
         });
 
-        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Bag 2.png"))); // NOI18N
-        jLabel3.setText("   Satuan Produk");
-        jLabel3.setToolTipText("");
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnSatuanProduk.setBackground(new java.awt.Color(255, 255, 255));
+        btnSatuanProduk.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnSatuanProduk.setForeground(new java.awt.Color(255, 255, 255));
+        btnSatuanProduk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Bag 2.png"))); // NOI18N
+        btnSatuanProduk.setText("   Satuan Produk");
+        btnSatuanProduk.setToolTipText("");
+        btnSatuanProduk.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                btnSatuanProdukMouseClicked(evt);
             }
         });
 
-        jLabel5.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel5.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Document.png"))); // NOI18N
-        jLabel5.setText("   Produk");
-        jLabel5.setToolTipText("");
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnProduk.setBackground(new java.awt.Color(255, 255, 255));
+        btnProduk.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnProduk.setForeground(new java.awt.Color(255, 255, 255));
+        btnProduk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Document.png"))); // NOI18N
+        btnProduk.setText("   Produk");
+        btnProduk.setToolTipText("");
+        btnProduk.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
+                btnProdukMouseClicked(evt);
             }
         });
 
-        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel6.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Calendar.png"))); // NOI18N
-        jLabel6.setText("   Stok Masuk");
-        jLabel6.setToolTipText("");
-        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnStokMasuk.setBackground(new java.awt.Color(255, 255, 255));
+        btnStokMasuk.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnStokMasuk.setForeground(new java.awt.Color(255, 255, 255));
+        btnStokMasuk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Calendar.png"))); // NOI18N
+        btnStokMasuk.setText("   Stok Masuk");
+        btnStokMasuk.setToolTipText("");
+        btnStokMasuk.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel6MouseClicked(evt);
+                btnStokMasukMouseClicked(evt);
             }
         });
 
@@ -178,52 +178,52 @@ public class dashboard_admin extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSatuanProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnStokMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnKetgoriProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                .addComponent(btnKetgoriProduk, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(btnSatuanProduk))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
+                .addComponent(btnProduk)
                 .addGap(16, 16, 16)
-                .addComponent(jLabel6))
+                .addComponent(btnStokMasuk))
         );
 
-        jLabel7.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel7.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Calendar-1.png"))); // NOI18N
-        jLabel7.setText("   Stok Keluar");
-        jLabel7.setToolTipText("");
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnStokKeluar.setBackground(new java.awt.Color(255, 255, 255));
+        btnStokKeluar.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnStokKeluar.setForeground(new java.awt.Color(255, 255, 255));
+        btnStokKeluar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Calendar-1.png"))); // NOI18N
+        btnStokKeluar.setText("   Stok Keluar");
+        btnStokKeluar.setToolTipText("");
+        btnStokKeluar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel7MouseClicked(evt);
+                btnStokKeluarMouseClicked(evt);
             }
         });
 
-        jLabel8.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel8.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Buy.png"))); // NOI18N
-        jLabel8.setText("   Transaksi");
-        jLabel8.setToolTipText("");
-        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnTransaksi.setBackground(new java.awt.Color(255, 255, 255));
+        btnTransaksi.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnTransaksi.setForeground(new java.awt.Color(255, 255, 255));
+        btnTransaksi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Buy.png"))); // NOI18N
+        btnTransaksi.setText("   Transaksi");
+        btnTransaksi.setToolTipText("");
+        btnTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel8MouseClicked(evt);
+                btnTransaksiMouseClicked(evt);
             }
         });
 
@@ -231,39 +231,39 @@ public class dashboard_admin extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(74, 185, 236));
         jLabel9.setText("Menu Master");
 
-        jLabel10.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel10.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Activity.png"))); // NOI18N
-        jLabel10.setText("   Laporan Penjualan");
-        jLabel10.setToolTipText("");
-        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnLaporanPenjualan.setBackground(new java.awt.Color(255, 255, 255));
+        btnLaporanPenjualan.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnLaporanPenjualan.setForeground(new java.awt.Color(255, 255, 255));
+        btnLaporanPenjualan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Activity.png"))); // NOI18N
+        btnLaporanPenjualan.setText("   Laporan Penjualan");
+        btnLaporanPenjualan.setToolTipText("");
+        btnLaporanPenjualan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel10MouseClicked(evt);
+                btnLaporanPenjualanMouseClicked(evt);
             }
         });
 
-        jLabel11.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel11.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/3 User.png"))); // NOI18N
-        jLabel11.setText("   Supplier");
-        jLabel11.setToolTipText("");
-        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnSupplier.setBackground(new java.awt.Color(255, 255, 255));
+        btnSupplier.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnSupplier.setForeground(new java.awt.Color(255, 255, 255));
+        btnSupplier.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/3 User.png"))); // NOI18N
+        btnSupplier.setText("   Supplier");
+        btnSupplier.setToolTipText("");
+        btnSupplier.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel11MouseClicked(evt);
+                btnSupplierMouseClicked(evt);
             }
         });
 
-        jLabel12.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel12.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Setting.png"))); // NOI18N
-        jLabel12.setText("   Pengaturan");
-        jLabel12.setToolTipText("");
-        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnPengaturan.setBackground(new java.awt.Color(255, 255, 255));
+        btnPengaturan.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnPengaturan.setForeground(new java.awt.Color(255, 255, 255));
+        btnPengaturan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Setting.png"))); // NOI18N
+        btnPengaturan.setText("   Pengaturan");
+        btnPengaturan.setToolTipText("");
+        btnPengaturan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel12MouseClicked(evt);
+                btnPengaturanMouseClicked(evt);
             }
         });
 
@@ -276,14 +276,14 @@ public class dashboard_admin extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnPengaturan, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSupplier, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnLaporanPenjualan, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)
                             .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnStokKeluar, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(35, 35, 35)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -299,17 +299,17 @@ public class dashboard_admin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel7)
+                .addComponent(btnStokKeluar)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel8)
+                .addComponent(btnTransaksi)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel10)
+                .addComponent(btnLaporanPenjualan)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel11)
+                .addComponent(btnSupplier)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel12)
+                .addComponent(btnPengaturan)
                 .addContainerGap())
         );
 
@@ -362,18 +362,18 @@ public class dashboard_admin extends javax.swing.JFrame {
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 700, 110));
 
-        javax.swing.GroupLayout jDesktopPanelLayout = new javax.swing.GroupLayout(jDesktopPanel);
-        jDesktopPanel.setLayout(jDesktopPanelLayout);
-        jDesktopPanelLayout.setHorizontalGroup(
-            jDesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout dpWindowsViewLayout = new javax.swing.GroupLayout(dpWindowsView);
+        dpWindowsView.setLayout(dpWindowsViewLayout);
+        dpWindowsViewLayout.setHorizontalGroup(
+            dpWindowsViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 700, Short.MAX_VALUE)
         );
-        jDesktopPanelLayout.setVerticalGroup(
-            jDesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        dpWindowsViewLayout.setVerticalGroup(
+            dpWindowsViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 730, Short.MAX_VALUE)
         );
 
-        jPanel1.add(jDesktopPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 110, 700, 730));
+        jPanel1.add(dpWindowsView, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 110, 700, 730));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -389,59 +389,68 @@ public class dashboard_admin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        kategori_produk menu = new kategori_produk();
-        jDesktopPanel.removeAll();
-        jDesktopPanel.add(menu).setVisible(true);
-    }//GEN-LAST:event_jLabel4MouseClicked
+    private void btnKetgoriProdukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKetgoriProdukMouseClicked
+        KategoriProduk menu = new KategoriProduk();
+        dpWindowsView.removeAll();
+        dpWindowsView.repaint();
+        dpWindowsView.add(menu).setVisible(true);
+    }//GEN-LAST:event_btnKetgoriProdukMouseClicked
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        satuan_produk menu = new satuan_produk();
-        jDesktopPanel.removeAll();
-        jDesktopPanel.add(menu).setVisible(true);
-    }//GEN-LAST:event_jLabel3MouseClicked
+    private void btnSatuanProdukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSatuanProdukMouseClicked
+        SatuanProduk menu = new SatuanProduk();
+        dpWindowsView.removeAll();
+        dpWindowsView.repaint();
+        dpWindowsView.add(menu).setVisible(true);
+    }//GEN-LAST:event_btnSatuanProdukMouseClicked
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        produk menu = new produk();
-        jDesktopPanel.removeAll();
-        jDesktopPanel.add(menu).setVisible(true);
-    }//GEN-LAST:event_jLabel5MouseClicked
+    private void btnProdukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProdukMouseClicked
+        Produk menu = new Produk();
+        dpWindowsView.removeAll();
+        dpWindowsView.repaint();
+        dpWindowsView.add(menu).setVisible(true);
+    }//GEN-LAST:event_btnProdukMouseClicked
 
-    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-        stok_masuk menu = new stok_masuk();
-        jDesktopPanel.removeAll();
-        jDesktopPanel.add(menu).setVisible(true);
-    }//GEN-LAST:event_jLabel6MouseClicked
+    private void btnStokMasukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStokMasukMouseClicked
+        StokMasuk menu = new StokMasuk();
+        dpWindowsView.removeAll();
+        dpWindowsView.repaint();
+        dpWindowsView.add(menu).setVisible(true);
+    }//GEN-LAST:event_btnStokMasukMouseClicked
 
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        stok_keluar menu = new stok_keluar();
-        jDesktopPanel.removeAll();
-        jDesktopPanel.add(menu).setVisible(true);
-    }//GEN-LAST:event_jLabel7MouseClicked
+    private void btnStokKeluarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStokKeluarMouseClicked
+        StokKeluar menu = new StokKeluar();
+        dpWindowsView.removeAll();
+        dpWindowsView.repaint();
+        dpWindowsView.add(menu).setVisible(true);
+    }//GEN-LAST:event_btnStokKeluarMouseClicked
 
-    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-        transaksi menu = new transaksi();
-        jDesktopPanel.removeAll();
-        jDesktopPanel.add(menu).setVisible(true);
-    }//GEN-LAST:event_jLabel8MouseClicked
+    private void btnTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransaksiMouseClicked
+        Transaksi menu = new Transaksi();
+        dpWindowsView.removeAll();
+        dpWindowsView.repaint();
+        dpWindowsView.add(menu).setVisible(true);
+    }//GEN-LAST:event_btnTransaksiMouseClicked
 
-    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
-        laporan_penjualan menu = new laporan_penjualan();
-        jDesktopPanel.removeAll();
-        jDesktopPanel.add(menu).setVisible(true);
-    }//GEN-LAST:event_jLabel10MouseClicked
+    private void btnLaporanPenjualanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLaporanPenjualanMouseClicked
+        LaporanPenjualan menu = new LaporanPenjualan();
+        dpWindowsView.removeAll();
+        dpWindowsView.repaint();
+        dpWindowsView.add(menu).setVisible(true);
+    }//GEN-LAST:event_btnLaporanPenjualanMouseClicked
 
-    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
-        supplier menu = new supplier();
-        jDesktopPanel.removeAll();
-        jDesktopPanel.add(menu).setVisible(true);
-    }//GEN-LAST:event_jLabel11MouseClicked
+    private void btnSupplierMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSupplierMouseClicked
+        Supplier menu = new Supplier();
+        dpWindowsView.removeAll();
+        dpWindowsView.repaint();
+        dpWindowsView.add(menu).setVisible(true);
+    }//GEN-LAST:event_btnSupplierMouseClicked
 
-    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
-        pengaturan menu = new pengaturan();
-        jDesktopPanel.removeAll();
-        jDesktopPanel.add(menu).setVisible(true);
-    }//GEN-LAST:event_jLabel12MouseClicked
+    private void btnPengaturanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPengaturanMouseClicked
+        Pengaturan menu = new Pengaturan();
+        dpWindowsView.removeAll();
+        dpWindowsView.repaint();
+        dpWindowsView.add(menu).setVisible(true);
+    }//GEN-LAST:event_btnPengaturanMouseClicked
 
     /**
      * @param args the command line arguments
@@ -460,44 +469,46 @@ public class dashboard_admin extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(dashboard_admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(dashboard_admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(dashboard_admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(dashboard_admin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new dashboard_admin().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new DashboardAdmin().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jDesktopPanel;
+    private javax.swing.JLabel btnKetgoriProduk;
+    private javax.swing.JLabel btnLaporanPenjualan;
+    private javax.swing.JLabel btnPengaturan;
+    private javax.swing.JLabel btnProduk;
+    private javax.swing.JLabel btnSatuanProduk;
+    private javax.swing.JLabel btnStokKeluar;
+    private javax.swing.JLabel btnStokMasuk;
+    private javax.swing.JLabel btnSupplier;
+    private javax.swing.JLabel btnTransaksi;
+    private javax.swing.JPanel dpWindowsView;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
