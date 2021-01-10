@@ -5,18 +5,73 @@
  */
 package view.fawwaz;
 
+import database.Koneksi;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Mojave
  */
 public class Supplier extends javax.swing.JInternalFrame {
-
+    
+    ResultSet resultSet;
+    Koneksi connection;
+    
     /**
      * Creates new form kategori_produk
      */
     public Supplier() {
+        connection = new Koneksi();
         initComponents();
+        getTable();
     }
+    
+    public final void getTable(){
+        
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("No");
+        model.addColumn("ID");
+        model.addColumn("Nama Supplier");
+        model.addColumn("Alamat");
+        model.addColumn("No Telepon");
+        model.addColumn("Keterangan");
+        String[] namaKolom = {"id_supplier", "nama",
+          "alamat", "no_hp", "keterangan"};
+        
+        try{
+            int no = 1;
+            resultSet = connection.querySellect(namaKolom, "supplier");
+            
+            while(resultSet.next()){
+                model.addRow(new Object[]{
+                no++,
+                resultSet.getString(1),
+                resultSet.getString(2),
+                resultSet.getString(3),
+                resultSet.getString(4),
+                resultSet.getString(5)
+                });
+            }
+            
+            connection.closeDatabase();
+            tblSupplier.setModel(model);
+        }catch(SQLException e){
+            System.out.println("Error table supplier" + e.getMessage());
+        }
+      
+      
+    }
+    
+    public void refreshAll(){
+        tfNama.setText(null);
+        tfAlamat.setText(null);
+        tfNomorTelepon.setText(null);
+        tfKeterangan.setText(null);
+    }
+        
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -30,21 +85,21 @@ public class Supplier extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        tfNama = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        btnTambah = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblSupplier = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        btnHapus = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
+        btnEdit = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        tfKeterangan = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        tfAlamat = new javax.swing.JTextField();
+        tfNomorTelepon = new javax.swing.JTextField();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -54,18 +109,23 @@ public class Supplier extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel2.setText("Nama Lengkap");
 
-        jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        tfNama.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
+        tfNama.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                tfNamaActionPerformed(evt);
             }
         });
 
         jPanel2.setBackground(new java.awt.Color(1, 126, 250));
 
-        jLabel3.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("  Tambah");
+        btnTambah.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnTambah.setForeground(new java.awt.Color(255, 255, 255));
+        btnTambah.setText("  Tambah");
+        btnTambah.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTambahMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -73,15 +133,15 @@ public class Supplier extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(18, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+            .addComponent(btnTambah, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblSupplier.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -92,13 +152,23 @@ public class Supplier extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblSupplier.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSupplierMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblSupplier);
 
         jPanel3.setBackground(new java.awt.Color(255, 36, 36));
 
-        jLabel4.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("    Hapus");
+        btnHapus.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnHapus.setForeground(new java.awt.Color(255, 255, 255));
+        btnHapus.setText("    Hapus");
+        btnHapus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHapusMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -106,19 +176,24 @@ public class Supplier extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(18, Short.MAX_VALUE)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+            .addComponent(btnHapus, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
         jPanel7.setBackground(new java.awt.Color(250, 135, 1));
 
-        jLabel8.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("       Edit");
+        btnEdit.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnEdit.setForeground(new java.awt.Color(255, 255, 255));
+        btnEdit.setText("       Edit");
+        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -126,21 +201,21 @@ public class Supplier extends javax.swing.JInternalFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap(18, Short.MAX_VALUE)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+            .addComponent(btnEdit, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
         jLabel5.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel5.setText("Alamat");
 
-        jTextField3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        tfKeterangan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
+        tfKeterangan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                tfKeteranganActionPerformed(evt);
             }
         });
 
@@ -150,17 +225,17 @@ public class Supplier extends javax.swing.JInternalFrame {
         jLabel7.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel7.setText("Nomor Telepon");
 
-        jTextField4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        tfAlamat.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
+        tfAlamat.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                tfAlamatActionPerformed(evt);
             }
         });
 
-        jTextField5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        tfNomorTelepon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
+        tfNomorTelepon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                tfNomorTeleponActionPerformed(evt);
             }
         });
 
@@ -182,15 +257,15 @@ public class Supplier extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfNama, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tfNomorTelepon, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(51, 51, 51)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfKeterangan, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(tfAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -207,16 +282,16 @@ public class Supplier extends javax.swing.JInternalFrame {
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tfNama, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfKeterangan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tfNomorTelepon, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -244,41 +319,139 @@ public class Supplier extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void tfNamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNamaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_tfNamaActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void tfKeteranganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfKeteranganActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_tfKeteranganActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void tfAlamatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfAlamatActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_tfAlamatActionPerformed
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void tfNomorTeleponActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfNomorTeleponActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_tfNomorTeleponActionPerformed
+
+    private void btnTambahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseClicked
+        String nama = tfNama.getText();
+        String alamat = tfAlamat.getText();
+        String noTelepon = tfNomorTelepon.getText();
+        String keterangan = tfKeterangan.getText();
+        
+        if(nama.isEmpty() || alamat.isEmpty() 
+                || noTelepon.isEmpty() || keterangan.isEmpty()){
+            
+            JOptionPane.showMessageDialog(this, "Data masih belum lengkap");
+            
+        }else{
+            
+            String[] column = {"nama", "alamat", "no_hp", "keterangan"};
+            String[] value = {nama, alamat, noTelepon, keterangan};
+            String nameTable = "supplier";
+            
+            connection.queryInsert(nameTable, column, value);
+            connection.closeDatabase();
+            
+            getTable();
+            refreshAll();
+            
+        }
+    }//GEN-LAST:event_btnTambahMouseClicked
+
+    private void btnEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseClicked
+         String nama = tfNama.getText();
+        String alamat = tfAlamat.getText();
+        String noTelepon = tfNomorTelepon.getText();
+        String keterangan = tfKeterangan.getText();
+        
+         if(nama.isEmpty() || alamat.isEmpty() 
+                || noTelepon.isEmpty() || keterangan.isEmpty()){
+            
+            JOptionPane.showMessageDialog(this, "Data masih belum lengkap");
+            
+        }else{
+            
+            int baris = tblSupplier.getSelectedRow();
+            int kolom = 1;
+             
+            String id = String.valueOf(tblSupplier.getValueAt(baris, kolom));
+            String[] column = {"nama", "alamat", "no_hp", "keterangan"};
+            String[] value = {nama, alamat, noTelepon, keterangan};
+            String nameTable = "supplier";
+            String condition = "id_supplier = " + id;
+            
+            connection.queryUppdate(nameTable, column, value, condition);
+            connection.closeDatabase();
+            
+            getTable();
+            refreshAll();
+            
+        }
+    }//GEN-LAST:event_btnEditMouseClicked
+
+    private void btnHapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseClicked
+        
+        int baris = tblSupplier.getSelectedRow();
+        int kolom = 1;
+        
+        String id = String.valueOf(tblSupplier.getValueAt(baris, kolom));
+        
+        if(JOptionPane.showConfirmDialog(
+                this,
+                "Apakah anda yakin ingin menghapus data ini",
+                "Peringatan!!!",
+                JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION){
+            
+            connection.queryDelete("supplier", "id_supplier = " + id);
+            connection.closeDatabase();
+            
+        }else{
+            
+            return;
+            
+        }
+         
+        getTable();
+        JOptionPane.showMessageDialog(this,"Data Berhasil di hapus");
+        refreshAll();
+    }//GEN-LAST:event_btnHapusMouseClicked
+
+    private void tblSupplierMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSupplierMouseClicked
+        int baris = tblSupplier.getSelectedRow();
+        
+        String nama = String.valueOf(tblSupplier.getValueAt(baris, 2));
+        String alamat = String.valueOf(tblSupplier.getValueAt(baris, 3));
+        String noTelepon = String.valueOf(tblSupplier.getValueAt(baris, 4));
+        String Keterangan = String.valueOf(tblSupplier.getValueAt(baris, 5));
+        
+        tfNama.setText(nama);
+        tfNomorTelepon.setText(noTelepon);
+        tfKeterangan.setText(Keterangan);
+        tfAlamat.setText(alamat);
+    }//GEN-LAST:event_tblSupplierMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnEdit;
+    private javax.swing.JLabel btnHapus;
+    private javax.swing.JLabel btnTambah;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTable tblSupplier;
+    private javax.swing.JTextField tfAlamat;
+    private javax.swing.JTextField tfKeterangan;
+    private javax.swing.JTextField tfNama;
+    private javax.swing.JTextField tfNomorTelepon;
     // End of variables declaration//GEN-END:variables
 }
