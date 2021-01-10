@@ -6,9 +6,10 @@
 package view;
 
 import database.Koneksi;
-import database.SetTabel;
+import java.sql.SQLException;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -28,10 +29,39 @@ public class Supplier extends javax.swing.JInternalFrame {
     }
     
     public final void getTabel(){
+        
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("No");
+        model.addColumn("ID");
+        model.addColumn("Nama Supplier");
+        model.addColumn("Alamat");
+        model.addColumn("No Telepon");
+        model.addColumn("Keterangan");
         String[] namaKolom = {"id_supplier", "nama",
           "alamat", "no_hp", "keterangan"};
-      resultSet = connection.querySellect(namaKolom, "supplier");
-      tblSupplier.setModel(new SetTabel(resultSet));
+        
+        try{
+            int no = 1;
+            resultSet = connection.querySellect(namaKolom, "supplier");
+            
+            while(resultSet.next()){
+                model.addRow(new Object[]{
+                no++,
+                resultSet.getString(1),
+                resultSet.getString(2),
+                resultSet.getString(3),
+                resultSet.getString(4),
+                resultSet.getString(5)
+                });
+            }
+            
+            connection.closeDatabase();
+            tblSupplier.setModel(model);
+        }catch(SQLException e){
+            System.out.println("Error table supplier" + e.getMessage());
+        }
+      
+      
     }
     
     public void refreshAll(){
@@ -243,7 +273,7 @@ public class Supplier extends javax.swing.JInternalFrame {
         }else{
             
             int baris = tblSupplier.getSelectedRow();
-            int kolom = 0;
+            int kolom = 1;
              
             String id = String.valueOf(tblSupplier.getValueAt(baris, kolom));
             String[] column = {"nama", "alamat", "no_hp", "keterangan"};
@@ -265,10 +295,10 @@ public class Supplier extends javax.swing.JInternalFrame {
         
         int baris = tblSupplier.getSelectedRow();
         
-        String nama = String.valueOf(tblSupplier.getValueAt(baris, 1));
-        String alamat = String.valueOf(tblSupplier.getValueAt(baris, 2));
-        String noTelepon = String.valueOf(tblSupplier.getValueAt(baris, 3));
-        String Keterangan = String.valueOf(tblSupplier.getValueAt(baris, 4));
+        String nama = String.valueOf(tblSupplier.getValueAt(baris, 2));
+        String alamat = String.valueOf(tblSupplier.getValueAt(baris, 3));
+        String noTelepon = String.valueOf(tblSupplier.getValueAt(baris, 4));
+        String Keterangan = String.valueOf(tblSupplier.getValueAt(baris, 5));
         
         tfNama.setText(nama);
         tfNoTelepon.setText(noTelepon);
@@ -280,7 +310,8 @@ public class Supplier extends javax.swing.JInternalFrame {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         
         int baris = tblSupplier.getSelectedRow();
-        int kolom = 0;
+        int kolom = 1;
+        
         String id = String.valueOf(tblSupplier.getValueAt(baris, kolom));
         
         if(JOptionPane.showConfirmDialog(
