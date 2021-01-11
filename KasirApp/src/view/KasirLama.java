@@ -11,12 +11,12 @@ import java.beans.PropertyVetoException;
  *
  * @author Asus
  */
-public class Kasir extends javax.swing.JFrame {
+public class KasirLama extends javax.swing.JFrame {
     
     /**
      * Creates new form Admin2
      */
-    public Kasir() {
+    public KasirLama() {
         initComponents();
     }
 
@@ -307,19 +307,19 @@ public class Kasir extends javax.swing.JFrame {
 
     private void btnStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStockActionPerformed
 
-        dpDesktopView.removeAll();
-        dpDesktopView.repaint();
-
-        Stock stock = new Stock();
-        stock.setVisible(true);
-
-        try{
-            stock.setMaximum(true);
-        }catch(PropertyVetoException e){
-            System.out.println("populate view Stock Error: " + e.getMessage());
-        }
-
-        dpDesktopView.add(stock);
+//        dpDesktopView.removeAll();
+//        dpDesktopView.repaint();
+//
+//        Stock stock = new Stock();
+//        stock.setVisible(true);
+//
+//        try{
+//            stock.setMaximum(true);
+//        }catch(PropertyVetoException e){
+//            System.out.println("populate view Stock Error: " + e.getMessage());
+//        }
+//
+//        dpDesktopView.add(stock);
     }//GEN-LAST:event_btnStockActionPerformed
 
     private void btnBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBarangActionPerformed
@@ -413,8 +413,16 @@ public class Kasir extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Kasir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(KasirLama.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -435,7 +443,7 @@ public class Kasir extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new Kasir().setVisible(true);
+            new KasirLama().setVisible(true);
         });
     }
 

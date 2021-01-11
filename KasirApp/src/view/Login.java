@@ -164,11 +164,11 @@ public class Login extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this," acount anda belum terdaftar");
             }else{
                 if(akses.equals("Admin")){
-                    Kasir admin = new Kasir();
+                    KasirLama admin = new KasirLama();
                     admin.setVisible(true);
                     this.dispose();
                 }else{
-                    Kasir kasir = new Kasir();
+                    KasirLama kasir = new KasirLama();
                     kasir.setVisible(true);
                     this.dispose();
                 }

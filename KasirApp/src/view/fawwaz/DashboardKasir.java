@@ -10,10 +10,10 @@ package view.fawwaz;
  *
  * @author Mojave
  */
-public class dashboard_kasir extends javax.swing.JFrame {
+public class DashboardKasir extends javax.swing.JFrame {
 
     /** Creates new form dashboard_admin */
-    public dashboard_kasir() {
+    public DashboardKasir() {
         initComponents();
     }
 
@@ -36,12 +36,12 @@ public class dashboard_kasir extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        btnKategoriProduk = new javax.swing.JLabel();
+        btnSatuanProduk = new javax.swing.JLabel();
+        btnProduk = new javax.swing.JLabel();
+        btnStokMasuk = new javax.swing.JLabel();
+        btnStokKeluar = new javax.swing.JLabel();
+        btnTransaksi = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
@@ -49,7 +49,7 @@ public class dashboard_kasir extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jDesktopPanel = new javax.swing.JPanel();
+        dpWindowsView = new javax.swing.JPanel();
 
         jPanel7.setBackground(new java.awt.Color(7, 29, 88));
 
@@ -122,51 +122,51 @@ public class dashboard_kasir extends javax.swing.JFrame {
             .addGap(0, 37, Short.MAX_VALUE)
         );
 
-        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel4.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Bag.png"))); // NOI18N
-        jLabel4.setText("   Kategori Produk");
-        jLabel4.setToolTipText("");
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnKategoriProduk.setBackground(new java.awt.Color(255, 255, 255));
+        btnKategoriProduk.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnKategoriProduk.setForeground(new java.awt.Color(255, 255, 255));
+        btnKategoriProduk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Bag.png"))); // NOI18N
+        btnKategoriProduk.setText("   Kategori Produk");
+        btnKategoriProduk.setToolTipText("");
+        btnKategoriProduk.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
+                btnKategoriProdukMouseClicked(evt);
             }
         });
 
-        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel3.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Bag 2.png"))); // NOI18N
-        jLabel3.setText("   Satuan Produk");
-        jLabel3.setToolTipText("");
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnSatuanProduk.setBackground(new java.awt.Color(255, 255, 255));
+        btnSatuanProduk.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnSatuanProduk.setForeground(new java.awt.Color(255, 255, 255));
+        btnSatuanProduk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Bag 2.png"))); // NOI18N
+        btnSatuanProduk.setText("   Satuan Produk");
+        btnSatuanProduk.setToolTipText("");
+        btnSatuanProduk.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                btnSatuanProdukMouseClicked(evt);
             }
         });
 
-        jLabel5.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel5.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Document.png"))); // NOI18N
-        jLabel5.setText("   Produk");
-        jLabel5.setToolTipText("");
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnProduk.setBackground(new java.awt.Color(255, 255, 255));
+        btnProduk.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnProduk.setForeground(new java.awt.Color(255, 255, 255));
+        btnProduk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Document.png"))); // NOI18N
+        btnProduk.setText("   Produk");
+        btnProduk.setToolTipText("");
+        btnProduk.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
+                btnProdukMouseClicked(evt);
             }
         });
 
-        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel6.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Calendar.png"))); // NOI18N
-        jLabel6.setText("   Stok Masuk");
-        jLabel6.setToolTipText("");
-        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnStokMasuk.setBackground(new java.awt.Color(255, 255, 255));
+        btnStokMasuk.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnStokMasuk.setForeground(new java.awt.Color(255, 255, 255));
+        btnStokMasuk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Calendar.png"))); // NOI18N
+        btnStokMasuk.setText("   Stok Masuk");
+        btnStokMasuk.setToolTipText("");
+        btnStokMasuk.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel6MouseClicked(evt);
+                btnStokMasukMouseClicked(evt);
             }
         });
 
@@ -177,52 +177,52 @@ public class dashboard_kasir extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSatuanProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnStokMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnKategoriProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                .addComponent(btnKategoriProduk, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(btnSatuanProduk))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
+                .addComponent(btnProduk)
                 .addGap(16, 16, 16)
-                .addComponent(jLabel6))
+                .addComponent(btnStokMasuk))
         );
 
-        jLabel7.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel7.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Calendar-1.png"))); // NOI18N
-        jLabel7.setText("   Stok Keluar");
-        jLabel7.setToolTipText("");
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnStokKeluar.setBackground(new java.awt.Color(255, 255, 255));
+        btnStokKeluar.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnStokKeluar.setForeground(new java.awt.Color(255, 255, 255));
+        btnStokKeluar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Calendar-1.png"))); // NOI18N
+        btnStokKeluar.setText("   Stok Keluar");
+        btnStokKeluar.setToolTipText("");
+        btnStokKeluar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel7MouseClicked(evt);
+                btnStokKeluarMouseClicked(evt);
             }
         });
 
-        jLabel8.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel8.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Buy.png"))); // NOI18N
-        jLabel8.setText("   Transaksi");
-        jLabel8.setToolTipText("");
-        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnTransaksi.setBackground(new java.awt.Color(255, 255, 255));
+        btnTransaksi.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnTransaksi.setForeground(new java.awt.Color(255, 255, 255));
+        btnTransaksi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Buy.png"))); // NOI18N
+        btnTransaksi.setText("   Transaksi");
+        btnTransaksi.setToolTipText("");
+        btnTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel8MouseClicked(evt);
+                btnTransaksiMouseClicked(evt);
             }
         });
 
@@ -250,8 +250,8 @@ public class dashboard_kasir extends javax.swing.JFrame {
                             .addComponent(jLabel9)
                             .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnStokKeluar, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel17)
                             .addComponent(jLabel18)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -269,9 +269,9 @@ public class dashboard_kasir extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel7)
+                .addComponent(btnStokKeluar)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel8)
+                .addComponent(btnTransaksi)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -330,18 +330,18 @@ public class dashboard_kasir extends javax.swing.JFrame {
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 0, 700, 110));
 
-        javax.swing.GroupLayout jDesktopPanelLayout = new javax.swing.GroupLayout(jDesktopPanel);
-        jDesktopPanel.setLayout(jDesktopPanelLayout);
-        jDesktopPanelLayout.setHorizontalGroup(
-            jDesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout dpWindowsViewLayout = new javax.swing.GroupLayout(dpWindowsView);
+        dpWindowsView.setLayout(dpWindowsViewLayout);
+        dpWindowsViewLayout.setHorizontalGroup(
+            dpWindowsViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 700, Short.MAX_VALUE)
         );
-        jDesktopPanelLayout.setVerticalGroup(
-            jDesktopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        dpWindowsViewLayout.setVerticalGroup(
+            dpWindowsViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 730, Short.MAX_VALUE)
         );
 
-        jPanel1.add(jDesktopPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 110, 700, 730));
+        jPanel1.add(dpWindowsView, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 110, 700, 730));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -357,41 +357,47 @@ public class dashboard_kasir extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        kategori_produk menu = new kategori_produk();
-        jDesktopPanel.removeAll();
-        jDesktopPanel.add(menu).setVisible(true);
-    }//GEN-LAST:event_jLabel4MouseClicked
+    private void btnKategoriProdukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKategoriProdukMouseClicked
+        KategoriProduk menu = new KategoriProduk();
+        dpWindowsView.removeAll();
+        dpWindowsView.repaint();
+        dpWindowsView.add(menu).setVisible(true);
+    }//GEN-LAST:event_btnKategoriProdukMouseClicked
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        satuan_produk menu = new satuan_produk();
-        jDesktopPanel.removeAll();
-        jDesktopPanel.add(menu).setVisible(true);
-    }//GEN-LAST:event_jLabel3MouseClicked
+    private void btnSatuanProdukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSatuanProdukMouseClicked
+        SatuanProduk menu = new SatuanProduk();
+        dpWindowsView.removeAll();
+        dpWindowsView.repaint();
+        dpWindowsView.add(menu).setVisible(true);
+    }//GEN-LAST:event_btnSatuanProdukMouseClicked
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        produk menu = new produk();
-        jDesktopPanel.removeAll();
-        jDesktopPanel.add(menu).setVisible(true);
-    }//GEN-LAST:event_jLabel5MouseClicked
+    private void btnProdukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProdukMouseClicked
+        Produk menu = new Produk();
+        dpWindowsView.removeAll();
+        dpWindowsView.repaint();
+        dpWindowsView.add(menu).setVisible(true);
+    }//GEN-LAST:event_btnProdukMouseClicked
 
-    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-        stok_masuk menu = new stok_masuk();
-        jDesktopPanel.removeAll();
-        jDesktopPanel.add(menu).setVisible(true);
-    }//GEN-LAST:event_jLabel6MouseClicked
+    private void btnStokMasukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStokMasukMouseClicked
+        StokMasuk menu = new StokMasuk();
+        dpWindowsView.removeAll();
+        dpWindowsView.repaint();
+        dpWindowsView.add(menu).setVisible(true);
+    }//GEN-LAST:event_btnStokMasukMouseClicked
 
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        stok_keluar menu = new stok_keluar();
-        jDesktopPanel.removeAll();
-        jDesktopPanel.add(menu).setVisible(true);
-    }//GEN-LAST:event_jLabel7MouseClicked
+    private void btnStokKeluarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStokKeluarMouseClicked
+        StokKeluar menu = new StokKeluar();
+        dpWindowsView.removeAll();
+        dpWindowsView.repaint();
+        dpWindowsView.add(menu).setVisible(true);
+    }//GEN-LAST:event_btnStokKeluarMouseClicked
 
-    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-        transaksi menu = new transaksi();
-        jDesktopPanel.removeAll();
-        jDesktopPanel.add(menu).setVisible(true);
-    }//GEN-LAST:event_jLabel8MouseClicked
+    private void btnTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransaksiMouseClicked
+        Transaksi menu = new Transaksi();
+        dpWindowsView.removeAll();
+        dpWindowsView.repaint();
+        dpWindowsView.add(menu).setVisible(true);
+    }//GEN-LAST:event_btnTransaksiMouseClicked
 
     /**
      * @param args the command line arguments
@@ -410,14 +416,22 @@ public class dashboard_kasir extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(dashboard_kasir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DashboardKasir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(dashboard_kasir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DashboardKasir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(dashboard_kasir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DashboardKasir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(dashboard_kasir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DashboardKasir.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -428,15 +442,19 @@ public class dashboard_kasir extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new dashboard_kasir().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new DashboardKasir().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jDesktopPanel;
+    private javax.swing.JLabel btnKategoriProduk;
+    private javax.swing.JLabel btnProduk;
+    private javax.swing.JLabel btnSatuanProduk;
+    private javax.swing.JLabel btnStokKeluar;
+    private javax.swing.JLabel btnStokMasuk;
+    private javax.swing.JLabel btnTransaksi;
+    private javax.swing.JPanel dpWindowsView;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -445,12 +463,6 @@ public class dashboard_kasir extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

@@ -5,17 +5,66 @@
  */
 package view.fawwaz;
 
+import database.Koneksi;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Mojave
  */
-public class laporan_penjualan extends javax.swing.JInternalFrame {
-
+public class SatuanProduk extends javax.swing.JInternalFrame {
+    
+    ResultSet resultSet;
+    Koneksi connection;
+    
     /**
      * Creates new form kategori_produk
      */
-    public laporan_penjualan() {
+    public SatuanProduk() {
+        connection = new Koneksi();
         initComponents();
+        getTable();
+    }
+    
+    private void getTable(){
+        
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("No");
+        model.addColumn("ID");
+        model.addColumn("Nama Satuan");
+        
+        String[] namaKolom = {"No_id","Nama_Satuan"};
+        String nameTable = "satuanbarang";
+        
+        try{
+            
+            int no = 1;
+            resultSet = connection.querySellect(namaKolom, nameTable);
+            
+            while(resultSet.next()){
+                model.addRow(new Object[]{
+                    no++,
+                    resultSet.getString(1),
+                    resultSet.getString(2)
+                });
+            }
+            
+            connection.closeDatabase();
+            tblSatuanProduk.setModel(model);
+        }catch(SQLException e){
+            System.out.println("Error try to populate table : " + e.getMessage());
+        }
+    }
+    
+    private void refreshAll(){
+        tfSatuanProduk.setText(null);
+    }
+    
+    public void closeDatabase(){
+        connection.closeDatabase();
     }
 
     /**
@@ -30,36 +79,41 @@ public class laporan_penjualan extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        tfSatuanProduk = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        btnTambah = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblSatuanProduk = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        btnHapus = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
+        btnEdit = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Poppins SemiBold", 1, 18)); // NOI18N
-        jLabel1.setText("Menu Laporan Penjualan");
+        jLabel1.setText("Menu Satuan Produk");
 
         jLabel2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jLabel2.setText("Masukkan Kata Kunci");
+        jLabel2.setText("Nama Satuan");
 
-        jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        tfSatuanProduk.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
+        tfSatuanProduk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                tfSatuanProdukActionPerformed(evt);
             }
         });
 
         jPanel2.setBackground(new java.awt.Color(1, 126, 250));
 
-        jLabel3.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("      Cari");
+        btnTambah.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnTambah.setForeground(new java.awt.Color(255, 255, 255));
+        btnTambah.setText("  Tambah");
+        btnTambah.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTambahMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -67,15 +121,15 @@ public class laporan_penjualan extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(18, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+            .addComponent(btnTambah, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblSatuanProduk.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -86,13 +140,23 @@ public class laporan_penjualan extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblSatuanProduk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSatuanProdukMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblSatuanProduk);
 
         jPanel3.setBackground(new java.awt.Color(255, 36, 36));
 
-        jLabel4.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("    Hapus");
+        btnHapus.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnHapus.setForeground(new java.awt.Color(255, 255, 255));
+        btnHapus.setText("    Hapus");
+        btnHapus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHapusMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -100,19 +164,24 @@ public class laporan_penjualan extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(18, Short.MAX_VALUE)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+            .addComponent(btnHapus, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
         jPanel7.setBackground(new java.awt.Color(250, 135, 1));
 
-        jLabel8.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("      Print");
+        btnEdit.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnEdit.setForeground(new java.awt.Color(255, 255, 255));
+        btnEdit.setText("       Edit");
+        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -120,12 +189,12 @@ public class laporan_penjualan extends javax.swing.JInternalFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap(18, Short.MAX_VALUE)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+            .addComponent(btnEdit, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -143,7 +212,7 @@ public class laporan_penjualan extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(tfSatuanProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel2)
                                 .addComponent(jLabel1)))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 631, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -157,7 +226,7 @@ public class laporan_penjualan extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfSatuanProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -185,23 +254,104 @@ public class laporan_penjualan extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void tfSatuanProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSatuanProdukActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_tfSatuanProdukActionPerformed
+
+    private void btnTambahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseClicked
+        
+        String namaSatuan = tfSatuanProduk.getText();
+        
+        if(namaSatuan.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Nama Satuan tidak boleh kosong");
+        }else{
+            String[] column = {"Nama_Satuan"};
+            String[] value = {namaSatuan};
+            String nameTable = "satuanbarang";
+            
+            connection.queryInsert(nameTable, column, value);
+            connection.closeDatabase();
+            
+            getTable();
+            refreshAll();
+        }
+        
+    }//GEN-LAST:event_btnTambahMouseClicked
+
+    private void btnEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseClicked
+        
+        String namaSatuan = tfSatuanProduk.getText();
+        
+        if(namaSatuan.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Nama Satuan tidak boleh kosong");
+        }else{
+            
+            int baris = tblSatuanProduk.getSelectedRow();
+            int kolom = 1;
+            
+            String id = String.valueOf(tblSatuanProduk.getValueAt(baris, kolom));
+            String[] column = {"Nama_Satuan"};
+            String[] value = {namaSatuan};
+            String nameTable = "satuanbarang";
+            String condition = "No_id = " + id;
+            
+            connection.queryUppdate(nameTable, column, value, condition);
+            connection.closeDatabase();
+            
+            getTable();
+            refreshAll();
+        }
+    }//GEN-LAST:event_btnEditMouseClicked
+
+    private void btnHapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseClicked
+        
+        int baris = tblSatuanProduk.getSelectedRow();
+        int kolom = 1;
+        String id = String.valueOf(tblSatuanProduk.getValueAt(baris, kolom));
+        
+         boolean confirmation = JOptionPane.showConfirmDialog(
+                this,
+                "Apakah anda yakin ingin menghapus data ini",
+                "Peringatan!!!",
+                JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION;
+         
+         if(confirmation){
+             
+            String nameTable = "satuanbarang";
+            String condition = "No_id = " + id;
+            
+            connection.queryDelete(nameTable, condition);
+            connection.closeDatabase();
+         }else{
+             return;
+         }
+         
+        getTable();
+        refreshAll();
+        
+    }//GEN-LAST:event_btnHapusMouseClicked
+
+    private void tblSatuanProdukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSatuanProdukMouseClicked
+        int baris = tblSatuanProduk.getSelectedRow();
+        
+        String namaSatuan = String.valueOf(tblSatuanProduk.getValueAt(baris, 2));
+        
+        tfSatuanProduk.setText(namaSatuan);
+    }//GEN-LAST:event_tblSatuanProdukMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnEdit;
+    private javax.swing.JLabel btnHapus;
+    private javax.swing.JLabel btnTambah;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tblSatuanProduk;
+    private javax.swing.JTextField tfSatuanProduk;
     // End of variables declaration//GEN-END:variables
 }
