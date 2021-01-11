@@ -72,7 +72,9 @@ public class Supplier extends javax.swing.JInternalFrame {
         tfKeterangan.setText(null);
     }
         
-
+    public void closeDatabase(){
+        connection.closeDatabase();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

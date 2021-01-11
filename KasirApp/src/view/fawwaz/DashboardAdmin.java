@@ -6,16 +6,22 @@
 
 package view.fawwaz;
 
+import database.Koneksi;
+
 /**
  *
  * @author Mojave
  */
 public class DashboardAdmin extends javax.swing.JFrame {
-
+    
+    Koneksi connection ;
     /** Creates new form dashboard_admin */
     public DashboardAdmin() {
+        connection = new Koneksi();
         initComponents();
     }
+    
+   
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -394,6 +400,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         dpWindowsView.removeAll();
         dpWindowsView.repaint();
         dpWindowsView.add(menu).setVisible(true);
+        menu.closeDatabase();
     }//GEN-LAST:event_btnKetgoriProdukMouseClicked
 
     private void btnSatuanProdukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSatuanProdukMouseClicked
@@ -401,6 +408,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         dpWindowsView.removeAll();
         dpWindowsView.repaint();
         dpWindowsView.add(menu).setVisible(true);
+        menu.closeDatabase();
     }//GEN-LAST:event_btnSatuanProdukMouseClicked
 
     private void btnProdukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProdukMouseClicked
@@ -408,6 +416,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         dpWindowsView.removeAll();
         dpWindowsView.repaint();
         dpWindowsView.add(menu).setVisible(true);
+        menu.closeDatabase();
     }//GEN-LAST:event_btnProdukMouseClicked
 
     private void btnStokMasukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStokMasukMouseClicked
@@ -415,6 +424,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         dpWindowsView.removeAll();
         dpWindowsView.repaint();
         dpWindowsView.add(menu).setVisible(true);
+        menu.closeDatabase();
     }//GEN-LAST:event_btnStokMasukMouseClicked
 
     private void btnStokKeluarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStokKeluarMouseClicked
@@ -429,6 +439,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         dpWindowsView.removeAll();
         dpWindowsView.repaint();
         dpWindowsView.add(menu).setVisible(true);
+        menu.closeDatabase();
     }//GEN-LAST:event_btnTransaksiMouseClicked
 
     private void btnLaporanPenjualanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLaporanPenjualanMouseClicked
@@ -436,6 +447,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         dpWindowsView.removeAll();
         dpWindowsView.repaint();
         dpWindowsView.add(menu).setVisible(true);
+        
     }//GEN-LAST:event_btnLaporanPenjualanMouseClicked
 
     private void btnSupplierMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSupplierMouseClicked
@@ -443,6 +455,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         dpWindowsView.removeAll();
         dpWindowsView.repaint();
         dpWindowsView.add(menu).setVisible(true);
+        menu.closeDatabase();
     }//GEN-LAST:event_btnSupplierMouseClicked
 
     private void btnPengaturanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPengaturanMouseClicked
@@ -450,6 +463,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         dpWindowsView.removeAll();
         dpWindowsView.repaint();
         dpWindowsView.add(menu).setVisible(true);
+        
     }//GEN-LAST:event_btnPengaturanMouseClicked
 
     /**

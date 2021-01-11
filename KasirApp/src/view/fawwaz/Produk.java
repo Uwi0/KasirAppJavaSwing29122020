@@ -116,6 +116,10 @@ public class Produk extends javax.swing.JInternalFrame {
         cbxKategoriProduk.setSelectedItem("pilih");
         cbxSatuanProduk.setSelectedItem("pilih");
     }
+    
+    public void closeDatabase(){
+        connection.closeDatabase();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

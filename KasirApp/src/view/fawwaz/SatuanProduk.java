@@ -62,6 +62,10 @@ public class SatuanProduk extends javax.swing.JInternalFrame {
     private void refreshAll(){
         tfSatuanProduk.setText(null);
     }
+    
+    public void closeDatabase(){
+        connection.closeDatabase();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

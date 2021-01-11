@@ -5,17 +5,108 @@
  */
 package view.fawwaz;
 
+import database.Koneksi;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author Mojave
  */
 public class StokMasuk extends javax.swing.JInternalFrame {
-
+    
+    int jumlahStokSebelumDiEdit = 0;
+    Koneksi connection;
+    ResultSet resultSet;
     /**
      * Creates new form kategori_produk
      */
     public StokMasuk() {
+        
+        connection = new Koneksi();
         initComponents();
+        getTable();
+        populateComboBoxBarcode();
+        
+    }
+    
+    private void populateComboBoxBarcode(){
+        
+        ArrayList barcode;
+        barcode = new ArrayList<String>();
+        String query = "SELECT barcode FROM `databarang`";
+        
+        resultSet = connection.eksekusiQuery(query);
+        
+        try{
+            while(resultSet.next()){
+                barcode.add(resultSet.getString(1));
+            }
+        }catch(SQLException e){
+            System.out.println("Error try to populate combobox barcode" 
+                    + e.getMessage());
+        }
+        
+        connection.closeDatabase();
+        barcode.forEach((i) -> cbxBarcode.addItem(i.toString()));
+    }
+    
+    private void getTable(){
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("No");
+        model.addColumn("ID");
+        model.addColumn("Tanggal");
+        model.addColumn("Nomor Barcode");
+        model.addColumn("Jumlah");
+        model.addColumn("Keterangan");
+        
+        String[] column = {
+            "no_id",
+            "tanggal_masuk",
+            "barcode",
+            "jumlah",
+            "keterangan"
+        };
+        String tableName = "stokmasuk";
+        
+        resultSet = connection.querySellect(column, tableName);
+        
+        try{
+            int i = 1;
+            
+            while(resultSet.next()){
+                model.addRow(new Object[]{
+                    i++,
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getString(5)
+                });
+            }
+            
+            connection.closeDatabase();
+            tblStokmasuk.setModel(model);
+        }catch(SQLException e){
+            System.out.println("Error try to populate table Stok Masuk :" 
+                    + e.getMessage());
+        }
+    }
+    
+    private void getRefresh(){
+        dcTanggal.setDate(null);
+        cbxBarcode.setSelectedItem("pilih");
+        tfJumlah.setText(null);
+        tfKeterangan.setText(null);
+    }
+    
+    public void closeDatabase(){
+        connection.closeDatabase();
     }
 
     /**
@@ -30,21 +121,21 @@ public class StokMasuk extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        btnTambah = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblStokmasuk = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        btnHapus = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
+        btnEdit = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        tfJumlah = new javax.swing.JTextField();
+        tfKeterangan = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbxBarcode = new javax.swing.JComboBox<>();
+        dcTanggal = new com.toedter.calendar.JDateChooser();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -54,18 +145,16 @@ public class StokMasuk extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel2.setText("Tanggal");
 
-        jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
-            }
-        });
-
         jPanel2.setBackground(new java.awt.Color(1, 126, 250));
 
-        jLabel3.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("  Tambah");
+        btnTambah.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnTambah.setForeground(new java.awt.Color(255, 255, 255));
+        btnTambah.setText("  Tambah");
+        btnTambah.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTambahMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -73,15 +162,15 @@ public class StokMasuk extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(18, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+            .addComponent(btnTambah, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblStokmasuk.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -92,13 +181,23 @@ public class StokMasuk extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblStokmasuk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblStokmasukMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblStokmasuk);
 
         jPanel3.setBackground(new java.awt.Color(255, 36, 36));
 
-        jLabel4.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("    Hapus");
+        btnHapus.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnHapus.setForeground(new java.awt.Color(255, 255, 255));
+        btnHapus.setText("    Hapus");
+        btnHapus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHapusMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -106,19 +205,24 @@ public class StokMasuk extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(18, Short.MAX_VALUE)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+            .addComponent(btnHapus, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
         jPanel7.setBackground(new java.awt.Color(250, 135, 1));
 
-        jLabel8.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("       Edit");
+        btnEdit.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
+        btnEdit.setForeground(new java.awt.Color(255, 255, 255));
+        btnEdit.setText("       Edit");
+        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -126,28 +230,28 @@ public class StokMasuk extends javax.swing.JInternalFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap(18, Short.MAX_VALUE)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+            .addComponent(btnEdit, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
         jLabel5.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel5.setText("Jumlah");
 
-        jTextField2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        tfJumlah.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
+        tfJumlah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                tfJumlahActionPerformed(evt);
             }
         });
 
-        jTextField3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        tfKeterangan.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
+        tfKeterangan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                tfKeteranganActionPerformed(evt);
             }
         });
 
@@ -157,8 +261,10 @@ public class StokMasuk extends javax.swing.JInternalFrame {
         jLabel7.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel7.setText("Nomor Barcode");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
+        cbxBarcode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pilih" }));
+        cbxBarcode.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
+
+        dcTanggal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -171,14 +277,14 @@ public class StokMasuk extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel2)
                             .addComponent(jLabel1)
-                            .addComponent(jTextField1)
                             .addComponent(jLabel7)
-                            .addComponent(jComboBox1, 0, 286, Short.MAX_VALUE))
+                            .addComponent(cbxBarcode, 0, 286, Short.MAX_VALUE)
+                            .addComponent(dcTanggal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(55, 55, 55)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfKeterangan, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6)))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -195,23 +301,23 @@ public class StokMasuk extends javax.swing.JInternalFrame {
                 .addGap(21, 21, 21)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(dcTanggal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(tfJumlah, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBox1)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
+                    .addComponent(cbxBarcode)
+                    .addComponent(tfKeterangan, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -220,7 +326,7 @@ public class StokMasuk extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -239,37 +345,148 @@ public class StokMasuk extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void tfJumlahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfJumlahActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_tfJumlahActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void tfKeteranganActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfKeteranganActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_tfKeteranganActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    private void btnTambahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseClicked
+        
+        Date date = (Date) dcTanggal.getDate();
+        
+        String tanggal = new java.sql.Date(date.getTime()).toString();
+        String barcode = cbxBarcode.getSelectedItem().toString();
+        String jumlah = tfJumlah.getText();
+        String keterangan = tfKeterangan.getText();
+        
+        if(tanggal.isEmpty() || "pilih".equals(barcode) 
+                || jumlah.isEmpty() || keterangan.isEmpty()){
+            
+            JOptionPane.showMessageDialog(this, "Data Masih ada yang kosong");
+            
+        }else{
+            
+            String nameTable = "stokmasuk";
+            String[] column = {"tanggal_masuk", "barcode", "jumlah", "keterangan"};
+            String[] value = {tanggal, barcode, jumlah, keterangan};
+            connection.queryInsert(nameTable, column, value);
+            
+            connection.closeDatabase();
+            getTable();
+            getRefresh();
+        }
+    }//GEN-LAST:event_btnTambahMouseClicked
+
+    private void btnEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseClicked
+        
+        Date date = (Date) dcTanggal.getDate();
+        
+        String tanggal = new java.sql.Date(date.getTime()).toString();
+        String barcode = cbxBarcode.getSelectedItem().toString();
+        String jumlah = tfJumlah.getText();
+        String keterangan = tfKeterangan.getText();
+        
+        if(tanggal.isEmpty() || "pilih".equals(barcode) 
+                || jumlah.isEmpty() || keterangan.isEmpty()){
+            
+            JOptionPane.showMessageDialog(this, "Data Masih ada yang kosong");
+            
+        }else{
+            
+            int baris = tblStokmasuk.getSelectedRow();
+            int kolom = 1;
+            
+            String id = String.valueOf(tblStokmasuk.getValueAt(baris, kolom));
+            String nameTable = "stokmasuk";
+            String[] column = {"tanggal_masuk", "barcode", "jumlah", "keterangan"};
+            String[] value = {tanggal, barcode, jumlah, keterangan};
+            String condition = "no_id = " + id;
+            connection.queryUppdate(nameTable, column, value, condition);
+            
+            connection.closeDatabase();
+            getTable();
+            getRefresh();
+        }
+    }//GEN-LAST:event_btnEditMouseClicked
+
+    private void tblStokmasukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblStokmasukMouseClicked
+        
+        int baris = tblStokmasuk.getSelectedRow();
+        int kolomTanggal = 2;
+        int kolomBarcode = 3;
+        int kolomJumlah = 4;
+        int kolomKeterangan = 5;
+        
+        String dateValue = 
+                String.valueOf(tblStokmasuk.getValueAt(baris, kolomTanggal));
+        String barcode = 
+                String.valueOf(tblStokmasuk.getValueAt(baris, kolomBarcode));
+        String jumlah = 
+                String.valueOf(tblStokmasuk.getValueAt(baris, kolomJumlah));
+        jumlahStokSebelumDiEdit = Integer.parseInt(jumlah);
+        String keterangan = 
+                String.valueOf(tblStokmasuk.getValueAt(baris, kolomKeterangan));
+        Date date = null;
+        try{
+           date = new SimpleDateFormat("yyyy-MM-dd").parse(dateValue);
+        }catch(ParseException e){
+            System.out.println("Error try to parse format" + e.getMessage());
+        }
+        
+        dcTanggal.setDate(date);
+        cbxBarcode.setSelectedItem(barcode);
+        tfJumlah.setText(jumlah);
+        tfKeterangan.setText(keterangan);
+        
+    }//GEN-LAST:event_tblStokmasukMouseClicked
+
+    private void btnHapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseClicked
+        
+        int baris = tblStokmasuk.getSelectedRow();
+        int kolom = 1;
+        
+        String id = String.valueOf(tblStokmasuk.getValueAt(baris, kolom));
+        boolean confrimation = JOptionPane.showConfirmDialog(
+                this,
+                "Apakah anda yakin ingin menghapus data ini",
+                "Peringatan!!!",
+                JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION;
+        
+        if(confrimation){
+            
+            String nameTable = "stokmasuk";
+            String condition = "no_id = " + id;
+            connection.queryDelete(nameTable, condition);
+            connection.closeDatabase();
+        }
+        
+        getTable();
+        getRefresh();
+        
+    }//GEN-LAST:event_btnHapusMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel btnEdit;
+    private javax.swing.JLabel btnHapus;
+    private javax.swing.JLabel btnTambah;
+    private javax.swing.JComboBox<String> cbxBarcode;
+    private com.toedter.calendar.JDateChooser dcTanggal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTable tblStokmasuk;
+    private javax.swing.JTextField tfJumlah;
+    private javax.swing.JTextField tfKeterangan;
     // End of variables declaration//GEN-END:variables
 }
