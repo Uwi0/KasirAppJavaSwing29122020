@@ -449,13 +449,13 @@ public class StokMasuk extends javax.swing.JInternalFrame {
         int kolom = 1;
         
         String id = String.valueOf(tblStokmasuk.getValueAt(baris, kolom));
-        boolean confrimation = JOptionPane.showConfirmDialog(
+        boolean confirmation = JOptionPane.showConfirmDialog(
                 this,
                 "Apakah anda yakin ingin menghapus data ini",
                 "Peringatan!!!",
                 JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION;
         
-        if(confrimation){
+        if(confirmation){
             
             String nameTable = "stokmasuk";
             String condition = "no_id = " + id;

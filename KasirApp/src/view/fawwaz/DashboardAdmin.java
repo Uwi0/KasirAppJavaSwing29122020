@@ -432,6 +432,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         dpWindowsView.removeAll();
         dpWindowsView.repaint();
         dpWindowsView.add(menu).setVisible(true);
+        menu.closeDatabase();
     }//GEN-LAST:event_btnStokKeluarMouseClicked
 
     private void btnTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTransaksiMouseClicked
