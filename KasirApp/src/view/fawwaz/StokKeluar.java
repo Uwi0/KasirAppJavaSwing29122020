@@ -111,6 +111,81 @@ public class StokKeluar extends javax.swing.JInternalFrame {
     public void closeDatabase(){
         connection.closeDatabase();
     }
+    
+    private void substractStocToStockStable(){
+        
+        String barcode = cbxBarcode.getSelectedItem().toString();
+        
+        String tableName = "databarang";
+        String[] column = {"No_id", "stok"};
+        String condition = "barcode = " + barcode;
+        
+        resultSet = connection.selectCommand(column, tableName, condition);
+        
+        String idBarang = "";
+        String stokBarang = "";
+        try{
+            
+            while(resultSet.next()){
+                idBarang = resultSet.getString(1);
+                stokBarang = resultSet.getString(2);
+            }
+            
+            connection.closeDatabase();
+        }catch(SQLException e){
+            System.out.println("Error try to get value from table user : " + 
+                    e.getMessage());
+        }
+        
+        int jumlahStokMasuk = Integer.parseInt(tfJumlah.getText());
+        int jumlahStockBaru = Integer.parseInt(stokBarang) - jumlahStokMasuk;
+        
+        String query = "UPDATE `databarang` SET stok = " + jumlahStockBaru 
+                + " WHERE No_id = " + idBarang;
+        
+        connection.eksekusiUpdate(query);
+        connection.closeDatabase();
+        
+    }
+    
+    private void editStockFromTableStock(){
+        
+        String barcode = cbxBarcode.getSelectedItem().toString();
+        
+        String tableName = "databarang";
+        String[] column = {"No_id", "stok"};
+        String condition = "barcode = " + barcode;
+        
+        resultSet = connection.selectCommand(column, tableName, condition);
+        
+        String idBarang = "";
+        String stokBarang = "";
+        
+        try{
+            
+            while(resultSet.next()){
+                idBarang = resultSet.getString(1);
+                stokBarang = resultSet.getString(2);
+            }
+            
+            connection.closeDatabase();
+        }catch(SQLException e){
+            System.out.println("Error try to get value from table user : " + 
+                    e.getMessage());
+        }
+        
+        int stokLama = jumlahStokSebelumDiEdit;
+        int stokSaatIni = Integer.parseInt(stokBarang);
+        int stokBaru = Integer.parseInt(tfJumlah.getText());
+        
+        int stokUpdate = (stokSaatIni + stokLama ) - stokBaru;
+        
+        String query = "UPDATE `databarang` SET stok = " + stokUpdate
+                + " WHERE No_id = " + idBarang;
+        
+        connection.eksekusiUpdate(query);
+        connection.closeDatabase();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -370,6 +445,7 @@ public class StokKeluar extends javax.swing.JInternalFrame {
                 String.valueOf(tblStokKeluar.getValueAt(baris, kolomBarcode));
         String jumlah = 
                 String.valueOf(tblStokKeluar.getValueAt(baris, kolomJumlah));
+        jumlahStokSebelumDiEdit = Integer.parseInt(jumlah);
         String keterangan = 
                 String.valueOf(tblStokKeluar.getValueAt(baris,kolomKeterangan));
         
@@ -412,6 +488,7 @@ public class StokKeluar extends javax.swing.JInternalFrame {
             
             connection.closeDatabase();
             getTable();
+            substractStocToStockStable();
             getRefresh();
         }
         
@@ -445,6 +522,7 @@ public class StokKeluar extends javax.swing.JInternalFrame {
             
             connection.closeDatabase();
             getTable();
+            editStockFromTableStock();
             getRefresh();
         }
         
