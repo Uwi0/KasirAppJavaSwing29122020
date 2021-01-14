@@ -186,6 +186,44 @@ public class StokKeluar extends javax.swing.JInternalFrame {
         connection.eksekusiUpdate(query);
         connection.closeDatabase();
     }
+    
+     private void deleteStokFromTableStock(){
+        
+        String barcode = cbxBarcode.getSelectedItem().toString();
+        String jumlah = tfJumlah.getText();
+        int jumlahBarang = Integer.parseInt(jumlah);
+        
+        String tableName = "databarang";
+        String[] column = {"No_id", "stok"};
+        String condition = "barcode = " + barcode;
+        
+        resultSet = connection.selectCommand(column, tableName, condition);
+        
+        String idBarang = "";
+        int stokBarang = 0;
+        
+        try{
+            
+            while(resultSet.next()){
+                idBarang = resultSet.getString(1);
+                stokBarang = resultSet.getInt(2);
+            }
+            
+            connection.closeDatabase();
+        }catch(SQLException e){
+            System.out.println("Error try to get value from table user : " + 
+                    e.getMessage());
+        }
+        
+        int hapusStok =  stokBarang + jumlahBarang;
+        
+        String query = "UPDATE `databarang` SET stok = " + hapusStok
+                + " WHERE No_id = " + idBarang;
+        
+        connection.eksekusiUpdate(query);
+        connection.closeDatabase();
+        
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -549,6 +587,7 @@ public class StokKeluar extends javax.swing.JInternalFrame {
         }
         
         getTable();
+        deleteStokFromTableStock();
         getRefresh();
         
     }//GEN-LAST:event_btnHapusMouseClicked
