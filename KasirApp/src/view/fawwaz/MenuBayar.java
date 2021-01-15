@@ -6,9 +6,19 @@
 package view.fawwaz;
 
 import database.Koneksi;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.print.PageFormat;
+import java.awt.print.Paper;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import javax.swing.JButton;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import print.PrintClass;
 
 /**
  *
@@ -33,7 +43,37 @@ public class MenuBayar extends javax.swing.JFrame {
         tvTotalBiaya.setText(totalBiaya);
     }
    
+     public PageFormat getPageFormat(PrinterJob printerJob){
+        PageFormat pageFormat = printerJob.defaultPage();
+        Paper paper = pageFormat.getPaper();
+        
+        double middleHeight = 8.0;
+        double headerHeight = 2.0;
+        double footerHeight = 2.0;
+        double width = convert_CM_TO_PPI(8);
+        double height = 
+                convert_CM_TO_PPI(headerHeight + middleHeight + footerHeight);
+        paper.setSize(width, height);
+        paper.setImageableArea(
+                0,
+                10,
+                width,
+                height - convert_CM_TO_PPI(1)
+        );
+        
+        pageFormat.setOrientation(PageFormat.PORTRAIT); 
+        pageFormat.setPaper(paper);
+        
+        return pageFormat;
+    }
     
+    protected static double convert_CM_TO_PPI(double cm){
+        return TOPPI(cm * 0.393600787);
+    }
+    
+    protected static double TOPPI(double inch){
+        return inch * 72d;
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -240,14 +280,87 @@ public class MenuBayar extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
+    
+        PrinterJob printerJob = PrinterJob.getPrinterJob();
+        printerJob.setPrintable(new PrintStruk(), getPageFormat(printerJob));
         
+        try{
+            printerJob.print();
+        }catch(PrinterException e){
+            e.printStackTrace();
+        }
         
     }//GEN-LAST:event_btnBayarActionPerformed
 
     private void tfDiskonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfDiskonKeyReleased
         
+        String ambilNiliaDiskon = tfDiskon.getText();
+        String[] splitNilaiDiskon = ambilNiliaDiskon.split("%");
+        String textNilaiDisko = splitNilaiDiskon[0];
+        String ambilNilaiTotalBiaya = tvTotalBiaya.getText();
+        String ambilNilaiCash = tfCash.getText();
+        
+        int nilaiDiskon = Integer.parseInt(textNilaiDisko);
+        int nilaiTotalBiaya = Integer.parseInt(ambilNilaiTotalBiaya);
+        int nilaiCash = Integer.parseInt(ambilNilaiCash);
+        
+        int totalBiayaPembayaran = 
+                nilaiCash - (nilaiTotalBiaya - 
+                (nilaiTotalBiaya * (nilaiDiskon / 100)));
+        
+        String nilaiTotalBiayaPembayaran = String.valueOf(totalBiayaPembayaran);
+        
+        tvKembalian.setText(nilaiTotalBiayaPembayaran);
+        
     }//GEN-LAST:event_tfDiskonKeyReleased
+    
+        public class PrintStruk implements Printable{
 
+        @Override
+        public int print(
+                Graphics graphics,
+                PageFormat pageFormat,
+                int pageIndex
+        ) throws PrinterException {
+            int result = NO_SUCH_PAGE;
+            if(pageIndex == 0){
+                
+                Graphics2D graphics2d = (Graphics2D) graphics;
+                double width = pageFormat.getImageableWidth();
+                graphics2d.translate(
+                        (int)pageFormat.getImageableX(),
+                        (int)pageFormat.getImageableY()
+                );
+                
+                FontMetrics metrics = graphics2d.getFontMetrics(
+                        new Font("Arial",Font.BOLD,7));
+                
+                int idLength = metrics.stringWidth("000");
+                int amtLength = metrics.stringWidth("000000");
+                int qtyLength = metrics.stringWidth("00000");
+                int priceLength = metrics.stringWidth("000000");
+                int prodLength = 
+                        (int)width - idLength 
+                        - amtLength - qtyLength - priceLength-17;
+                
+                try{
+                    int y = 20;
+                    int yShift = 10;
+                    int headerRectangleHeight = 15;
+                    int headerRectangleHeighta = 40;
+                    graphics2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
+                    graphics2d.drawString("-------------------------------------",12,y);y+=yShift;
+                    graphics2d.drawString("      Restaurant Bill Receipt        ",12,y);y+=yShift;
+                    graphics2d.drawString("-------------------------------------",12,y);y+=headerRectangleHeight;
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                
+                result = PAGE_EXISTS;
+            }
+        return result;
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -276,10 +389,8 @@ public class MenuBayar extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MenuBayar().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MenuBayar().setVisible(true);
         });
     }
 
