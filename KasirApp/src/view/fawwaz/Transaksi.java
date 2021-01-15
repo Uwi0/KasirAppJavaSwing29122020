@@ -120,7 +120,7 @@ public class Transaksi extends javax.swing.JInternalFrame {
         return harga * jumlah;
     }
     
-    private static int totalHarga(){
+    public static int getTotalHarga(){
         return hargaTotal;
         
     }
@@ -577,6 +577,7 @@ public class Transaksi extends javax.swing.JInternalFrame {
             connection.closeDatabase();
             getTable();
             substractStockFromTableStock();
+            tfJumlah.setText(null);
             refreshAll();
         }
         
@@ -608,6 +609,7 @@ public class Transaksi extends javax.swing.JInternalFrame {
         }
         
         getTable();
+        tfJumlah.setText(null);
         refreshAll();
     }//GEN-LAST:event_btnHapusMouseClicked
 

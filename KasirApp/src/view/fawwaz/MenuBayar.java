@@ -5,25 +5,36 @@
  */
 package view.fawwaz;
 
+import database.Koneksi;
 import javax.swing.JButton;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
  * @author Asus
  */
 public class MenuBayar extends javax.swing.JFrame {
-
+    
+    Koneksi connection;
+    ResultSet resultSet;
+    
     /**
      * Creates new form MenuBayar
      */
     public MenuBayar() {
+        connection = new Koneksi();
         initComponents();
+        getTotalBiayaPembelian();
     }
     
-    private void customButton(){
-        JButton button = new JButton();
-        
+    private void getTotalBiayaPembelian(){
+        String totalBiaya = String.valueOf(Transaksi.getTotalHarga());
+        tvTotalBiaya.setText(totalBiaya);
     }
+   
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,17 +51,15 @@ public class MenuBayar extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jLabel7 = new javax.swing.JLabel();
-        tfJumlahUang = new javax.swing.JTextField();
+        tfCash = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         tfDiskon = new javax.swing.JTextField();
+        btnBayar = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        tvTotalBayar = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        tvkembalian = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        Close = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        tfTotalBiaya = new javax.swing.JTextField();
+        tvTotalBiaya = new javax.swing.JLabel();
+        tvKembalian = new javax.swing.JLabel();
 
         jTextField1.setText("jTextField1");
 
@@ -72,10 +81,10 @@ public class MenuBayar extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel7.setText("Jumlah Uang");
 
-        tfJumlahUang.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
-        tfJumlahUang.addKeyListener(new java.awt.event.KeyAdapter() {
+        tfCash.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
+        tfCash.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                tfJumlahUangKeyReleased(evt);
+                tfCashKeyReleased(evt);
             }
         });
 
@@ -83,45 +92,45 @@ public class MenuBayar extends javax.swing.JFrame {
         jLabel9.setText("Diskon");
 
         tfDiskon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
-        tfDiskon.addActionListener(new java.awt.event.ActionListener() {
+        tfDiskon.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfDiskonKeyReleased(evt);
+            }
+        });
+
+        btnBayar.setBackground(new java.awt.Color(1, 126, 250));
+        btnBayar.setForeground(new java.awt.Color(255, 255, 255));
+        btnBayar.setText("Bayar & Cetak");
+        btnBayar.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnBayar.setBorderPainted(false);
+        btnBayar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfDiskonActionPerformed(evt);
+                btnBayarActionPerformed(evt);
+            }
+        });
+
+        btnClose.setBackground(new java.awt.Color(255, 36, 36));
+        btnClose.setForeground(new java.awt.Color(255, 255, 255));
+        btnClose.setText("Close");
+        btnClose.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnClose.setBorderPainted(false);
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
             }
         });
 
         jLabel6.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel6.setText("Total Bayar: ");
 
-        tvTotalBayar.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
-        tvTotalBayar.setText("35.000");
-
         jLabel10.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         jLabel10.setText("Kembalian: ");
 
-        tvkembalian.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
-        tvkembalian.setText("15.000");
+        tvTotalBiaya.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        tvTotalBiaya.setText("35.000");
 
-        jButton1.setBackground(new java.awt.Color(1, 126, 250));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Bayar & Cetak");
-        jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-        jButton1.setBorderPainted(false);
-
-        Close.setBackground(new java.awt.Color(255, 36, 36));
-        Close.setForeground(new java.awt.Color(255, 255, 255));
-        Close.setText("Close");
-        Close.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-        Close.setBorderPainted(false);
-        Close.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CloseActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel3.setText("Total Pembayaran");
-
-        tfTotalBiaya.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
+        tvKembalian.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
+        tvKembalian.setText("15.000");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -130,38 +139,37 @@ public class MenuBayar extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(29, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel1)
-                            .addGap(136, 136, 136))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel11)
-                            .addGap(25, 25, 25)))
-                    .addComponent(jLabel3)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tfTotalBiaya, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(tfJumlahUang, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(tfDiskon, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(btnBayar, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnClose, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(tfDiskon, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(tvKembalian))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(tvTotalBiaya)))
+                            .addGap(127, 127, 127)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(Close, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(18, 18, 18))
+                            .addComponent(jLabel2)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel10)
-                                .addGap(22, 22, 22)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(tvTotalBayar)
-                            .addComponent(tvkembalian))
-                        .addGap(175, 175, 175))))
+                                .addGap(108, 108, 108)
+                                .addComponent(jLabel1))
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel9)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(tfCash, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE))))
+                        .addGap(25, 25, 25))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,33 +183,29 @@ public class MenuBayar extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addGap(16, 16, 16)
-                .addComponent(tfTotalBiaya, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfJumlahUang, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tfCash, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel9)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfDiskon, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(tvTotalBayar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(tvkembalian))
-                .addGap(36, 36, 36)
+                    .addComponent(jLabel6)
+                    .addComponent(tvTotalBiaya))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Close, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(83, Short.MAX_VALUE))
+                    .addComponent(jLabel10)
+                    .addComponent(tvKembalian))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnBayar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
-        Close.getAccessibleContext().setAccessibleName("");
+        btnClose.getAccessibleContext().setAccessibleName("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -217,18 +221,32 @@ public class MenuBayar extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tfDiskonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfDiskonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfDiskonActionPerformed
-
-    private void tfJumlahUangKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfJumlahUangKeyReleased
+    private void tfCashKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfCashKeyReleased
         
-    }//GEN-LAST:event_tfJumlahUangKeyReleased
+        String tvTotaHarga = tvTotalBiaya.getText();
+        String cashPembeliValue = tfCash.getText();
+        int totalHargaBarang = Integer.parseInt(tvTotaHarga);
+        int cashPembeli = Integer.parseInt(cashPembeliValue);
+        
+        int uangKembalian = cashPembeli - totalHargaBarang;
+        String nilaiUangkembalian = String.valueOf(uangKembalian);
+        
+        tvKembalian.setText(nilaiUangkembalian);
+    }//GEN-LAST:event_tfCashKeyReleased
 
-    private void CloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseActionPerformed
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         Transaksi.setDisplayMenuBayar(0);
         this.dispose();
-    }//GEN-LAST:event_CloseActionPerformed
+    }//GEN-LAST:event_btnCloseActionPerformed
+
+    private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
+        
+        
+    }//GEN-LAST:event_btnBayarActionPerformed
+
+    private void tfDiskonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfDiskonKeyReleased
+        
+    }//GEN-LAST:event_tfDiskonKeyReleased
 
     /**
      * @param args the command line arguments
@@ -266,23 +284,21 @@ public class MenuBayar extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Close;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnBayar;
+    private javax.swing.JButton btnClose;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField tfCash;
     private javax.swing.JTextField tfDiskon;
-    private javax.swing.JTextField tfJumlahUang;
-    private javax.swing.JTextField tfTotalBiaya;
-    private javax.swing.JLabel tvTotalBayar;
-    private javax.swing.JLabel tvkembalian;
+    private javax.swing.JLabel tvKembalian;
+    private javax.swing.JLabel tvTotalBiaya;
     // End of variables declaration//GEN-END:variables
 }
