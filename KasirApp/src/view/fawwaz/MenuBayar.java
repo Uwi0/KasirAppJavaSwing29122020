@@ -350,7 +350,7 @@ public class MenuBayar extends javax.swing.JFrame {
                     int headerRectangleHeighta = 40;
                     graphics2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
                     graphics2d.drawString("-------------------------------------",12,y);y+=yShift;
-                    graphics2d.drawString("      Restaurant Bill Receipt        ",12,y);y+=yShift;
+                    graphics2d.drawString("      Toko Roti        ",12,y);y+=yShift;
                     graphics2d.drawString("-------------------------------------",12,y);y+=headerRectangleHeight;
                 }catch(Exception e){
                     e.printStackTrace();
