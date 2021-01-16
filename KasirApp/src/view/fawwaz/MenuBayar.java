@@ -17,6 +17,7 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -39,7 +40,7 @@ public class MenuBayar extends javax.swing.JFrame {
     
     private void getTotalBiayaPembelian(){
         String totalBiaya = String.valueOf(Transaksi.getTotalHarga());
-        tvTotalBiaya.setText("10000");
+        tvTotalBiaya.setText(totalBiaya);
     }
    
      public PageFormat getPageFormat(PrinterJob printerJob){
@@ -91,10 +92,47 @@ public class MenuBayar extends javax.swing.JFrame {
         return diskon;
     }
     
+    private String getNamaProdukPembelian(){
+        String namaProduk = "";
+        ArrayList tableNamaProduk = new ArrayList<String>();
+        ArrayList tableJumlahPembelian = new ArrayList<String>();
+        
+        String query = "SELECT nama_produk, jumlah FROM transaksi_sementara";
+        resultSet = connection.eksekusiQuery(query);
+        
+        int jumlahKolom = 0;
+        try{
+            
+            while(resultSet.next()){
+              jumlahKolom++;
+              tableNamaProduk.add(resultSet.getString(1));
+              tableJumlahPembelian.add(resultSet.getString(2));
+            }
+            connection.closeDatabase();
+        }catch(SQLException e){
+            System.out.println("Error try to get value from database : " 
+                    + e.getMessage());
+        }
+        
+        for(int i = 0; i < jumlahKolom; i++){
+            namaProduk += 
+                    tableNamaProduk.get(i) +
+                    "(" + tableJumlahPembelian.get(i) + ")";
+            if(i < jumlahKolom - 1){
+                namaProduk+= ",";
+            }
+        }
+        return namaProduk;
+    }
+    
     private void insertValueToTableLaporanTransaksi(){
         
-        java.util.Date date = (java.util.Date)this.dsTangggal.getDate();
+        Date date = (Date)this.dsTangggal.getDate();
         String tanggal = new java.sql.Date(date.getTime()).toString();
+        String namaProduk = getNamaProdukPembelian();
+        String diskon = tfDiskon.getText();
+        String totalBayar = tvTotalBiaya.getText();
+        String kembalian  = tvKembalian.getText();
         
         String tableName = "laporan_transaksi";
         String[] colomn = {
@@ -106,11 +144,11 @@ public class MenuBayar extends javax.swing.JFrame {
         };
         
         String[] value = {
-            new java.sql.Date(date.getTime()).toString(),
-            "weci",
-            "20%",
-            "2000",
-            "5000"
+            tanggal,
+            namaProduk,
+            diskon,
+            totalBayar,
+            kembalian
         };
         
         connection.queryInsert(tableName, colomn, value);
@@ -336,8 +374,6 @@ public class MenuBayar extends javax.swing.JFrame {
         int totalBiaya = Integer.parseInt(tvTotaHarga);
         int Tunai = Integer.parseInt(cashPembeliValue);
         int diskon = getDiskon();
-        
-        System.out.println(diskon);
         
         int uangKembalian = 
                 Tunai - (totalBiaya - (totalBiaya * diskon / 100));
