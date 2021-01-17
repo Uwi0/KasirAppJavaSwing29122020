@@ -47,10 +47,10 @@ public class MenuBayar extends javax.swing.JFrame {
         PageFormat pageFormat = printerJob.defaultPage();
         Paper paper = pageFormat.getPaper();
         
-        double middleHeight = 8.0;
-        double headerHeight = 2.0;
-        double footerHeight = 2.0;
-        double width = convert_CM_TO_PPI(8);
+        double middleHeight = 9.0;
+        double headerHeight = 5.0;
+        double footerHeight = 5.0;
+        double width = convert_CM_TO_PPI(15);
         double height = 
                 convert_CM_TO_PPI(headerHeight + middleHeight + footerHeight);
         paper.setSize(width, height);
@@ -353,16 +353,16 @@ public class MenuBayar extends javax.swing.JFrame {
 
     private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
     
-//        PrinterJob printerJob = PrinterJob.getPrinterJob();
-//        printerJob.setPrintable(new PrintStruk(), getPageFormat(printerJob));
-//        
-//        try{
-//            printerJob.print();
-//        }catch(PrinterException e){
-//            e.printStackTrace();
-//        }
+        PrinterJob printerJob = PrinterJob.getPrinterJob();
+        printerJob.setPrintable(new PrintStruk(), getPageFormat(printerJob));
+        
+        try{
+            printerJob.print();
+        }catch(PrinterException e){
+            System.out.println("Error while to print bill : " + e.getMessage());
+        }
 
-        insertValueToTableLaporanTransaksi();
+//        insertValueToTableLaporanTransaksi();
         
     }//GEN-LAST:event_btnBayarActionPerformed
 
@@ -412,16 +412,66 @@ public class MenuBayar extends javax.swing.JFrame {
                         - amtLength - qtyLength - priceLength-17;
                 
                 try{
+                    
                     int y = 20;
-                    int yShift = 10;
+                    int yShift = 15;
                     int headerRectangleHeight = 15;
                     int headerRectangleHeighta = 40;
-                    graphics2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
-                    graphics2d.drawString("-------------------------------------",12,y);y+=yShift;
-                    graphics2d.drawString("               Toko Roti             ",12,y);y+=yShift;
-                    graphics2d.drawString("-------------------------------------",12,y);y+=headerRectangleHeight;
+                    graphics2d.setFont(new Font("Monospaced", Font.PLAIN, 18));
+                    graphics2d.drawString("Rotiku",12,y);
+                    y+=yShift;
+                    graphics2d.setFont(new Font("Monospaced", Font.BOLD, 16));
+                    graphics2d.drawString("Soekarno Hatta Block 7B No.6",12,y);
+                    y+=yShift;
+                    graphics2d.setFont(new Font("Monospaced", Font.PLAIN, 16));
+                    graphics2d.drawString("Sukabumi, Bandung", 12, y);
+                    y+=yShift;
+                    graphics2d.drawString("Telp. 031-20210101", 12, y);
+                    y+=yShift;
+                    graphics2d.setFont(new Font("Monospaced", Font.BOLD, 16));
+                    graphics2d.drawString("-------------------------------------",12,y);
+                    y+=headerRectangleHeight;
+                    graphics2d.setFont(new Font("Monospaced", Font.PLAIN, 12));
+                    graphics2d.drawString("Faktur  : 11111",12,y);
+                    y+=yShift;
+                    graphics2d.drawString("Tanggal : 01-01-2021", 12, y);
+                    y+=yShift;
+                    graphics2d.drawString("Kasir   : 001/Agung Subakti", 12, y);
+                    y+=yShift;
+                    graphics2d.setFont(new Font("Monospaced", Font.BOLD, 16));
+                    graphics2d.drawString("-------------------------------------",12,y);
+                    y+=headerRectangleHeight;
+                    graphics2d.setFont(new Font("Monospaced", Font.PLAIN, 12));
+                    //barang yang akan di beli
+                    graphics2d.setFont(new Font("Monospaced", Font.BOLD, 16));
+                    graphics2d.drawString("-------------------------------------",12,y);
+                    y+=headerRectangleHeight;
+                    graphics2d.setFont(new Font("Monospaced", Font.PLAIN, 12));
+                    graphics2d.drawString("SubTotal        : ", 12, y);
+                    y+=yShift;
+                    graphics2d.drawString("Discon          : ", 12, y);
+                    y+=yShift;
+                    graphics2d.drawString("Grand Total     : ", 12, y);
+                    y+=yShift;
+                    graphics2d.drawString("Tipe Pembayaran : ", 12, y);
+                    y+=headerRectangleHeight;
+                    graphics2d.setFont(new Font("Monospaced", Font.BOLD, 16));
+                    graphics2d.drawString("-------------------------------------",12,y);
+                    y+=headerRectangleHeighta;
+                    graphics2d.drawString("******* ROTIKU ********", 12, y);
+                    y+=headerRectangleHeight;
+                    graphics2d.setFont(new Font("Monospaced", Font.PLAIN, 12));
+                    graphics2d.drawString("TERIMAKASIH", 12, y);
+                    y+=yShift;
+                    graphics2d.drawString("TELAH MELAKUKAN PEMBELIAN", 12, y);
+                    y+=yShift;
+                    graphics2d.drawString("INFO PEMESANAN ONLINE", 12, y);
+                    y+=yShift;
+                    graphics2d.drawString("WHATSAPP : 0812-3456-789", 12, y);
+                    
                 }catch(Exception e){
-                    e.printStackTrace();
+                    System.out.println("Error generate graphics2d "
+                            + "class printStruck : " + e.getMessage());;
                 }
                 
                 result = PAGE_EXISTS;
