@@ -74,6 +74,7 @@ public class DashboardKasir extends javax.swing.JFrame {
         jLabel14.setText("Kasir App");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(248, 249, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -355,6 +356,7 @@ public class DashboardKasir extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnKategoriProdukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKategoriProdukMouseClicked

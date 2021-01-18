@@ -86,6 +86,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jLabel14.setText("Kasir App");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(248, 249, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -175,7 +176,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         btnKategoriProduk.setForeground(new java.awt.Color(255, 255, 255));
         btnKategoriProduk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Bag.png"))); // NOI18N
         btnKategoriProduk.setText("   Kategori Poduk");
-        btnKategoriProduk.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        btnKategoriProduk.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         btnKategoriProduk.setBorderPainted(false);
         btnKategoriProduk.setContentAreaFilled(false);
         btnKategoriProduk.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -403,6 +404,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSatuanProdukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSatuanProdukMouseClicked

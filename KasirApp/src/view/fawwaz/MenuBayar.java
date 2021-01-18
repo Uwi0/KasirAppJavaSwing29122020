@@ -185,6 +185,7 @@ public class MenuBayar extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -339,6 +340,7 @@ public class MenuBayar extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void tfDiskonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfDiskonKeyReleased
