@@ -127,8 +127,18 @@ public class Login extends javax.swing.JFrame {
         jLabel7.setText("Hubungi Brawi Studio: 081252924433");
 
         tfUsername.setFont(new java.awt.Font("Poppins", 1, 11)); // NOI18N
+        tfUsername.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfUsernameActionPerformed(evt);
+            }
+        });
 
         jpPassword.setFont(new java.awt.Font("Poppins", 1, 11)); // NOI18N
+        jpPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jpPasswordActionPerformed(evt);
+            }
+        });
 
         btnLogin.setText("Login");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -274,6 +284,14 @@ public class Login extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void jpPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jpPasswordActionPerformed
+       
+    }//GEN-LAST:event_jpPasswordActionPerformed
+
+    private void tfUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfUsernameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfUsernameActionPerformed
 
     /**
      * @param args the command line arguments

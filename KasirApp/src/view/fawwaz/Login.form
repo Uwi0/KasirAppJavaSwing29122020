@@ -242,6 +242,9 @@
               <Font name="Poppins" size="11" style="1"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfUsernameActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jpPassword">
           <Properties>
@@ -249,6 +252,9 @@
               <Font name="Poppins" size="11" style="1"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jpPasswordActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnLogin">
           <Properties>
