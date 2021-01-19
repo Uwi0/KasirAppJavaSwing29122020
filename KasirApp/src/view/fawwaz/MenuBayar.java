@@ -17,6 +17,7 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -26,6 +27,10 @@ import java.util.Date;
  */
 public class MenuBayar extends javax.swing.JFrame {
     
+    ArrayList listNamaBarang = new ArrayList<String>();
+    ArrayList listJumlahBarang = new ArrayList<String>();
+    ArrayList listHargaBarang = new ArrayList<String>();
+    ArrayList listSubtotal = new ArrayList<Integer>();
     Koneksi connection;
     ResultSet resultSet;
     
@@ -40,14 +45,14 @@ public class MenuBayar extends javax.swing.JFrame {
     
     private void getTotalBiayaPembelian(){
         String totalBiaya = String.valueOf(Transaksi.getTotalHarga());
-        tvTotalBiaya.setText(totalBiaya);
+        tvTotalBiaya.setText("16000");
     }
    
      public PageFormat getPageFormat(PrinterJob printerJob){
         PageFormat pageFormat = printerJob.defaultPage();
         Paper paper = pageFormat.getPaper();
         
-        double middleHeight = 9.0;
+        double middleHeight = 9 + listJumlahBarang.size();
         double headerHeight = 5.0;
         double footerHeight = 5.0;
         double width = convert_CM_TO_PPI(15);
@@ -125,14 +130,22 @@ public class MenuBayar extends javax.swing.JFrame {
         return namaProduk;
     }
     
+    private int getHargaSetelahDiskon(){
+        int hargaAwal = Integer.parseInt(tvTotalBiaya.getText());
+        int diskonPembelian = getDiskon();
+        int tunai = hargaAwal - (hargaAwal * (diskonPembelian / 100));
+        
+        return tunai;
+    }
+    
     private void insertValueToTableLaporanTransaksi(){
         
         Date date = (Date)this.dsTangggal.getDate();
         String tanggal = new java.sql.Date(date.getTime()).toString();
         String namaProduk = getNamaProdukPembelian();
         String diskon = tfDiskon.getText();
-        String totalBayar = tvTotalBiaya.getText();
-        String kembalian  = tvKembalian.getText();
+        String totalBayar = String.valueOf(getHargaSetelahDiskon());
+        String jumlahUang  = tfTunai.getText();
         
         String tableName = "laporan_transaksi";
         String[] colomn = {
@@ -148,11 +161,54 @@ public class MenuBayar extends javax.swing.JFrame {
             namaProduk,
             diskon,
             totalBayar,
-            kembalian
+            jumlahUang
         };
         
         connection.queryInsert(tableName, colomn, value);
         connection.closeDatabase();
+    }
+    
+    private void getValueForBillTransaksi(){
+        String query = "SELECT nama_produk, jumlah, harga_produk "
+                + "FROM transaksi_sementara";
+        
+        resultSet = connection.eksekusiQuery(query);
+        
+        try{
+            
+            while(resultSet.next()){
+                listNamaBarang.add(resultSet.getString(1));
+                listJumlahBarang.add(resultSet.getString(2));
+                listHargaBarang.add(resultSet.getString(3));
+            }
+            
+            connection.closeDatabase();
+        }catch(SQLException e){
+            System.out.println("Error try to get value from tabel "
+                    + "transaksi sementara(getValueForBillTransaksi) : "
+                    + e.getMessage());
+        }
+    }
+    
+    private void getSubtotalHargaBarang(){
+        for(int i = 0; i < listNamaBarang.size(); i++){
+            String nilaiJumlahBarang = String.valueOf(listJumlahBarang.get(i));
+            String nilaiHargaBarang = String.valueOf(listHargaBarang.get(i));
+            
+            int jumlahBarang = Integer.parseInt(nilaiJumlahBarang);
+            int hargaBarang = Integer.parseInt(nilaiHargaBarang);
+            
+            int subtotal = jumlahBarang * hargaBarang;
+            
+            listSubtotal.add(subtotal);
+            
+        }
+    }
+    
+    private String getDateNow(){
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        Date date = new Date();
+        return format.format(date);
     }
     
     /**
@@ -354,10 +410,12 @@ public class MenuBayar extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCloseActionPerformed
 
     private void btnBayarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBayarActionPerformed
-    
+        
+        getValueForBillTransaksi();
+        getSubtotalHargaBarang();
         PrinterJob printerJob = PrinterJob.getPrinterJob();
         printerJob.setPrintable(new PrintStruk(), getPageFormat(printerJob));
-        
+            
         try{
             printerJob.print();
         }catch(PrinterException e){
@@ -365,6 +423,8 @@ public class MenuBayar extends javax.swing.JFrame {
         }
 
 //        insertValueToTableLaporanTransaksi();
+        Transaksi.setDisplayMenuBayar(0);
+        this.dispose();
         
     }//GEN-LAST:event_btnBayarActionPerformed
 
@@ -420,10 +480,10 @@ public class MenuBayar extends javax.swing.JFrame {
                     int headerRectangleHeight = 15;
                     int headerRectangleHeighta = 40;
                     graphics2d.setFont(new Font("Monospaced", Font.PLAIN, 18));
-                    graphics2d.drawString("Rotiku",12,y);
+                    graphics2d.drawString("           Rotiku",12,y);
                     y+=yShift;
                     graphics2d.setFont(new Font("Monospaced", Font.BOLD, 16));
-                    graphics2d.drawString("Soekarno Hatta Block 7B No.6",12,y);
+                    graphics2d.drawString("    Soekarno Hatta Block 7B No.6",12,y);
                     y+=yShift;
                     graphics2d.setFont(new Font("Monospaced", Font.PLAIN, 16));
                     graphics2d.drawString("Sukabumi, Bandung", 12, y);
@@ -436,7 +496,7 @@ public class MenuBayar extends javax.swing.JFrame {
                     graphics2d.setFont(new Font("Monospaced", Font.PLAIN, 12));
                     graphics2d.drawString("Faktur  : 11111",12,y);
                     y+=yShift;
-                    graphics2d.drawString("Tanggal : 01-01-2021", 12, y);
+                    graphics2d.drawString("Tanggal : " + getDateNow() + " WIB", 12, y);
                     y+=yShift;
                     graphics2d.drawString("Kasir   : 001/Agung Subakti", 12, y);
                     y+=yShift;
@@ -444,21 +504,37 @@ public class MenuBayar extends javax.swing.JFrame {
                     graphics2d.drawString("-------------------------------------",12,y);
                     y+=headerRectangleHeight;
                     graphics2d.setFont(new Font("Monospaced", Font.PLAIN, 12));
+                    
+                    int no = 1;
                     //barang yang akan di beli
+                    for(int i = 0; i < listNamaBarang.size(); i++){
+                        graphics2d.drawString(no++ +". " + listNamaBarang.get(i), 10, y);
+                        y+=yShift;
+                        graphics2d.drawString("     " + listJumlahBarang.get(i) 
+                                + " X " + listHargaBarang.get(i) + "      "
+                                        + "      = " + listSubtotal.get(i), 10,y);
+                        y+=yShift;
+                    }
+                    
                     graphics2d.setFont(new Font("Monospaced", Font.BOLD, 16));
-                    graphics2d.drawString("-------------------------------------",12,y);
+                    graphics2d.drawString("-------------------------------------"
+                            ,12,y);
                     y+=headerRectangleHeight;
                     graphics2d.setFont(new Font("Monospaced", Font.PLAIN, 12));
-                    graphics2d.drawString("SubTotal        : ", 12, y);
+                    graphics2d.drawString("SubTotal        : " 
+                            + tvTotalBiaya.getText(), 12, y);
                     y+=yShift;
-                    graphics2d.drawString("Discon          : ", 12, y);
+                    graphics2d.drawString("Discon          : " 
+                            + tfDiskon.getText(), 12, y);
                     y+=yShift;
-                    graphics2d.drawString("Grand Total     : ", 12, y);
+                    graphics2d.drawString("Grand Total     : " 
+                            + getHargaSetelahDiskon(), 12, y);
                     y+=yShift;
-                    graphics2d.drawString("Tipe Pembayaran : ", 12, y);
+                    graphics2d.drawString("Tipe Pembayaran : Cash", 12, y);
                     y+=headerRectangleHeight;
                     graphics2d.setFont(new Font("Monospaced", Font.BOLD, 16));
-                    graphics2d.drawString("-------------------------------------",12,y);
+                    graphics2d.drawString("-------------------------------------"
+                            ,12,y);
                     y+=headerRectangleHeighta;
                     graphics2d.drawString("******* ROTIKU ********", 12, y);
                     y+=headerRectangleHeight;
@@ -473,7 +549,7 @@ public class MenuBayar extends javax.swing.JFrame {
                     
                 }catch(Exception e){
                     System.out.println("Error generate graphics2d "
-                            + "class printStruck : " + e.getMessage());;
+                            + "class printStruck : " + e.getMessage());
                 }
                 
                 result = PAGE_EXISTS;
@@ -497,15 +573,11 @@ public class MenuBayar extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MenuBayar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MenuBayar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MenuBayar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MenuBayar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
