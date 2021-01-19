@@ -245,12 +245,9 @@ public class LaporanPenjualan extends javax.swing.JInternalFrame {
         btnHapus = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-<<<<<<< Updated upstream
         jPanel8 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-=======
         dcTanggal = new com.toedter.calendar.JDateChooser();
->>>>>>> Stashed changes
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -348,7 +345,6 @@ public class LaporanPenjualan extends javax.swing.JInternalFrame {
             .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
-<<<<<<< Updated upstream
         jPanel8.setBackground(new java.awt.Color(5, 238, 56));
 
         jLabel9.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
@@ -368,9 +364,7 @@ public class LaporanPenjualan extends javax.swing.JInternalFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
-=======
         dcTanggal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
->>>>>>> Stashed changes
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
