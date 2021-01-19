@@ -22,7 +22,12 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }
     
    
-
+    public void setBayarView(){
+        Bayar bayar = new Bayar();
+        dpWindowsView.removeAll();
+        dpWindowsView.repaint();
+        dpWindowsView.add(bayar).setVisible(true);
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -42,10 +47,10 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        btnKetgoriProduk = new javax.swing.JLabel();
         btnSatuanProduk = new javax.swing.JLabel();
         btnProduk = new javax.swing.JLabel();
         btnStokMasuk = new javax.swing.JLabel();
+        btnKategoriProduk = new javax.swing.JButton();
         btnStokKeluar = new javax.swing.JLabel();
         btnTransaksi = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -81,6 +86,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jLabel14.setText("Kasir App");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(248, 249, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -122,24 +128,12 @@ public class DashboardAdmin extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 345, Short.MAX_VALUE)
+            .addGap(0, 347, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 37, Short.MAX_VALUE)
         );
-
-        btnKetgoriProduk.setBackground(new java.awt.Color(255, 255, 255));
-        btnKetgoriProduk.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
-        btnKetgoriProduk.setForeground(new java.awt.Color(255, 255, 255));
-        btnKetgoriProduk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Bag.png"))); // NOI18N
-        btnKetgoriProduk.setText("   Kategori Produk");
-        btnKetgoriProduk.setToolTipText("");
-        btnKetgoriProduk.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnKetgoriProdukMouseClicked(evt);
-            }
-        });
 
         btnSatuanProduk.setBackground(new java.awt.Color(255, 255, 255));
         btnSatuanProduk.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
@@ -177,6 +171,22 @@ public class DashboardAdmin extends javax.swing.JFrame {
             }
         });
 
+        btnKategoriProduk.setBackground(new java.awt.Color(7, 29, 88));
+        btnKategoriProduk.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        btnKategoriProduk.setForeground(new java.awt.Color(255, 255, 255));
+        btnKategoriProduk.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icon/Bag.png"))); // NOI18N
+        btnKategoriProduk.setText("   Kategori Poduk");
+        btnKategoriProduk.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        btnKategoriProduk.setBorderPainted(false);
+        btnKategoriProduk.setContentAreaFilled(false);
+        btnKategoriProduk.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnKategoriProduk.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        btnKategoriProduk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnKategoriProdukActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -184,23 +194,24 @@ public class DashboardAdmin extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(btnSatuanProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnStokMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnKetgoriProduk, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(btnStokMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnKategoriProduk, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSatuanProduk, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(btnKetgoriProduk, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addComponent(btnKategoriProduk, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSatuanProduk))
                 .addGap(18, 18, 18)
@@ -316,7 +327,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
                 .addComponent(btnSupplier)
                 .addGap(18, 18, 18)
                 .addComponent(btnPengaturan)
-                .addContainerGap())
+                .addGap(332, 332, 332))
         );
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 840));
@@ -379,7 +390,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
             .addGap(0, 730, Short.MAX_VALUE)
         );
 
-        jPanel1.add(dpWindowsView, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 110, 700, 730));
+        jPanel1.add(dpWindowsView, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 110, 700, 730));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -393,15 +404,8 @@ public class DashboardAdmin extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnKetgoriProdukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKetgoriProdukMouseClicked
-        KategoriProduk menu = new KategoriProduk();
-        dpWindowsView.removeAll();
-        dpWindowsView.repaint();
-        dpWindowsView.add(menu).setVisible(true);
-        menu.closeDatabase();
-    }//GEN-LAST:event_btnKetgoriProdukMouseClicked
 
     private void btnSatuanProdukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSatuanProdukMouseClicked
         SatuanProduk menu = new SatuanProduk();
@@ -464,8 +468,18 @@ public class DashboardAdmin extends javax.swing.JFrame {
         dpWindowsView.removeAll();
         dpWindowsView.repaint();
         dpWindowsView.add(menu).setVisible(true);
-        
+        menu.closeDatabase();
     }//GEN-LAST:event_btnPengaturanMouseClicked
+
+    private void btnKategoriProdukActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKategoriProdukActionPerformed
+        
+        KategoriProduk menu = new KategoriProduk();
+        dpWindowsView.removeAll();
+        dpWindowsView.repaint();
+        dpWindowsView.add(menu).setVisible(true);
+        menu.closeDatabase();
+        
+    }//GEN-LAST:event_btnKategoriProdukActionPerformed
 
     /**
      * @param args the command line arguments
@@ -483,15 +497,18 @@ public class DashboardAdmin extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(DashboardAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -508,7 +525,7 @@ public class DashboardAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel btnKetgoriProduk;
+    private javax.swing.JButton btnKategoriProduk;
     private javax.swing.JLabel btnLaporanPenjualan;
     private javax.swing.JLabel btnPengaturan;
     private javax.swing.JLabel btnProduk;

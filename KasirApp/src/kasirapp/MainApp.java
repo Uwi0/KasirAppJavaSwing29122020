@@ -5,6 +5,9 @@
  */
 package kasirapp;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  *
  * @author Asus
@@ -15,7 +18,8 @@ public class MainApp {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        String angkaPersen = "20%";
+        String[] angka = angkaPersen.split("%");
+        System.out.println(angka[0]);
     }
-    
 }

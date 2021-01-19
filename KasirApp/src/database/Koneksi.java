@@ -101,6 +101,7 @@ public class Koneksi {
     public ResultSet selectCommand(String[] column, String nameTable, String condition){
         query = " SELECT ";
         for(int i = 0; i < column.length; i++){
+            query+=column[i];
             if(i < column.length - 1){
                 query += ",";
             }

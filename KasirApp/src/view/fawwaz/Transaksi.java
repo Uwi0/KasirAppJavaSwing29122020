@@ -8,7 +8,10 @@ package view.fawwaz;
 import database.Koneksi;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,9 +20,19 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Transaksi extends javax.swing.JInternalFrame {
     
+    private String namaProduk = "";
+    private String kategoriProduk = "";
+    private String satuanProduk = "";
+    private String stokProduk = "";
+    private String hargaProduk = "";
+    
+    private static int displayMenuBayar = 0;
+    
     ResultSet resultSet;
     Koneksi connection;
-    String harga;
+    
+    static int hargaTotal = 0;
+    
     
     /**
      * Creates new form kategori_produk
@@ -28,6 +41,8 @@ public class Transaksi extends javax.swing.JInternalFrame {
         connection = new Koneksi();
         initComponents();
         populateBarcodeComboBox();
+        getTable();
+        generateUniqueID();
     }
     
     private void populateBarcodeComboBox(){
@@ -58,21 +73,157 @@ public class Transaksi extends javax.swing.JInternalFrame {
         model.addColumn("Kategori Produk");
         model.addColumn("Satuan Produk");
         model.addColumn("Harga");
+        model.addColumn("jumlah");
+        
+        String tableName = "transaksi_sementara";
+        String[] column = {
+            "nomer_barcode",
+            "nama_produk",
+            "kategori_produk",
+            "satuan_produk",
+            "harga_produk",
+            "jumlah"
+        };
+        
+        resultSet = connection.querySellect(column, tableName);
+        
+        try{
+            int i = 0;
+            
+            while(resultSet.next()){
+                model.addRow(new Object[]{
+                    i++,
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4),
+                    resultSet.getString(5),
+                    resultSet.getString(6)
+                });
+            }
+            
+            connection.closeDatabase();
+            tblMenuTransaksi.setModel(model);
+        }catch(SQLException e){
+            System.out.println("Error try to poppulate table transaksi : " 
+                    + e.getMessage());
+        }
         
     }
     
     private void setValueView(String nama, String jumlah){
-        tvNamaProduk.setText(nama);
-        tvJumlah.setText(jumlah);
-        System.out.println(nama + jumlah);
+        tvNamaProduk.setText("Nama : " + nama);
+        tvSisa.setText(jumlah);
     }
     
     private int subtotalHarga(int harga, int jumlah){
         return harga * jumlah;
     }
     
+    public static int getTotalHarga(){
+        return hargaTotal;
+        
+    }
+    
     public void closeDatabase(){
         connection.closeDatabase();
+    }
+    
+    private void refreshAll(){
+        cbxBarcode.setSelectedItem("Pilih");
+        tfJumlah.setText(null);
+        tvNamaProduk.setText("Nama : ");
+        tvSisa.setText("0");
+        tvSubtotal.setText("0");
+    }
+    
+    private void substractStockFromTableStock(){
+        
+        String barcode = cbxBarcode.getSelectedItem().toString();
+        
+        String tableName = "databarang";
+        String[] column = {"No_id","stok"};
+        String condition = "barcode = " + barcode;
+        
+        resultSet = connection.selectCommand(column, tableName, condition);
+        
+        String idBarang = "";
+        String stockBarang = "";
+        try{
+            
+            while(resultSet.next()){
+                idBarang = resultSet.getString(1);
+                stockBarang = resultSet.getString(2);
+            }
+            
+            connection.closeDatabase();
+        }catch(SQLException e){
+            System.out.println("Error trying get value from database : " 
+                    + e.getMessage());
+        }
+        
+        int stokKeluar = Integer.parseInt(tfJumlah.getText());
+        int jumlahStokBaru = Integer.parseInt(stockBarang) - stokKeluar;
+        
+        String  query = "UPDATE `databarang` SET stok = " + jumlahStokBaru 
+                + " WHERE No_id = " + idBarang;
+        
+        connection.eksekusiUpdate(query);
+        connection.closeDatabase();
+        
+    }
+    
+    
+    private void deleteStokFromTableStock(){
+        
+        String barcode = cbxBarcode.getSelectedItem().toString();
+        String jumlah = tfJumlah.getText();
+        int jumlahBarang = Integer.parseInt(jumlah);
+        
+        String tableName = "databarang";
+        String[] column = {"No_id", "stok"};
+        String condition = "barcode = " + barcode;
+        
+        resultSet = connection.selectCommand(column, tableName, condition);
+        
+        String idBarang = "";
+        int stokBarang = 0;
+        
+        try{
+            
+            while(resultSet.next()){
+                idBarang = resultSet.getString(1);
+                stokBarang = resultSet.getInt(2);
+            }
+            
+            connection.closeDatabase();
+        }catch(SQLException e){
+            System.out.println("Error try to get value from table user : " + 
+                    e.getMessage());
+        }
+        
+        int hapusStok =  stokBarang + jumlahBarang;
+        
+        String query = "UPDATE `databarang` SET stok = " + hapusStok
+                + " WHERE No_id = " + idBarang;
+        
+        connection.eksekusiUpdate(query);
+        connection.closeDatabase();
+        
+    }
+    
+    private void generateUniqueID(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyy");
+        Date date = new Date();
+        int angkaRandom = (int)(Math.random() * (100 - 50 + 1) + 50);
+        String uniqueId = 
+                "D" + dateFormat.format(date)+"A"
+                +100+angkaRandom+"F"+20+angkaRandom;
+        tvID.setText(uniqueId);
+    }
+    
+    public static void setDisplayMenuBayar(int displayMenuBayar){
+        Transaksi.displayMenuBayar = displayMenuBayar;
     }
 
     /**
@@ -97,12 +248,12 @@ public class Transaksi extends javax.swing.JInternalFrame {
         btnBayar = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         tfJumlah = new javax.swing.JTextField();
-        tvHarga = new javax.swing.JLabel();
+        tvSubtotal = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        tvID = new javax.swing.JLabel();
         tvNamaProduk = new javax.swing.JLabel();
-        tvJumlah = new javax.swing.JLabel();
+        tvSisa = new javax.swing.JLabel();
         cbxBarcode = new javax.swing.JComboBox<>();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -118,6 +269,11 @@ public class Transaksi extends javax.swing.JInternalFrame {
         btnTambah.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
         btnTambah.setForeground(new java.awt.Color(255, 255, 255));
         btnTambah.setText("  Tambah");
+        btnTambah.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTambahMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -144,6 +300,11 @@ public class Transaksi extends javax.swing.JInternalFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblMenuTransaksi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMenuTransaksiMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblMenuTransaksi);
 
         jPanel3.setBackground(new java.awt.Color(255, 36, 36));
@@ -151,6 +312,11 @@ public class Transaksi extends javax.swing.JInternalFrame {
         btnHapus.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
         btnHapus.setForeground(new java.awt.Color(255, 255, 255));
         btnHapus.setText("    Hapus");
+        btnHapus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHapusMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -171,6 +337,11 @@ public class Transaksi extends javax.swing.JInternalFrame {
         btnBayar.setFont(new java.awt.Font("Poppins Medium", 0, 12)); // NOI18N
         btnBayar.setForeground(new java.awt.Color(255, 255, 255));
         btnBayar.setText("     Bayar");
+        btnBayar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBayarMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -201,9 +372,9 @@ public class Transaksi extends javax.swing.JInternalFrame {
             }
         });
 
-        tvHarga.setFont(new java.awt.Font("Poppins", 1, 36)); // NOI18N
-        tvHarga.setForeground(new java.awt.Color(255, 0, 0));
-        tvHarga.setText("32.000");
+        tvSubtotal.setFont(new java.awt.Font("Poppins", 1, 36)); // NOI18N
+        tvSubtotal.setForeground(new java.awt.Color(255, 0, 0));
+        tvSubtotal.setText("32.000");
 
         jLabel10.setFont(new java.awt.Font("Poppins", 3, 12)); // NOI18N
         jLabel10.setText("Sisa");
@@ -211,13 +382,13 @@ public class Transaksi extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Poppins", 1, 12)); // NOI18N
         jLabel5.setText("ID Nota");
 
-        jLabel11.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
-        jLabel11.setText("D431F231A231A12");
+        tvID.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
+        tvID.setText("D431F231A231A12");
 
         tvNamaProduk.setFont(new java.awt.Font("Poppins", 0, 12)); // NOI18N
         tvNamaProduk.setText("Roti Coklat");
 
-        tvJumlah.setText("15");
+        tvSisa.setText("15");
 
         cbxBarcode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pilih" }));
         cbxBarcode.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(7, 29, 88), 2));
@@ -247,7 +418,7 @@ public class Transaksi extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel11))
+                                .addComponent(tvID))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -257,9 +428,9 @@ public class Transaksi extends javax.swing.JInternalFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel10)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(tvJumlah)))
+                                        .addComponent(tvSisa)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(tvHarga))
+                                .addComponent(tvSubtotal))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -277,20 +448,20 @@ public class Transaksi extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel5)
-                    .addComponent(jLabel11))
+                    .addComponent(tvID))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tvHarga)
+                    .addComponent(tvSubtotal)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(tvNamaProduk)
-                                .addGap(0, 24, Short.MAX_VALUE))
-                            .addComponent(cbxBarcode))
+                                .addGap(0, 32, Short.MAX_VALUE))
+                            .addComponent(cbxBarcode, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
-                            .addComponent(tvJumlah))))
+                            .addComponent(tvSisa))))
                 .addGap(21, 21, 21)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -328,13 +499,8 @@ public class Transaksi extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tfJumlahActionPerformed
 
     private void cbxBarcodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxBarcodeActionPerformed
-        
+
         String barcodeValue = cbxBarcode.getSelectedItem().toString();
-        
-        String namaProduk = "";
-        String kategori = "";
-        String satuan = "";
-        String stock = "";
         
         String query = 
                 "SELECT * FROM `databarang` WHERE barcode = " + barcodeValue;
@@ -345,10 +511,10 @@ public class Transaksi extends javax.swing.JInternalFrame {
             
             while(resultSet.next()){
                 namaProduk = resultSet.getString("nama_barang");
-                kategori = resultSet.getString("kategori_produk");
-                satuan = resultSet.getString("satuan");
-                stock = resultSet.getString("stok");
-                harga = resultSet.getString("harga");
+                kategoriProduk = resultSet.getString("kategori_produk");
+                satuanProduk = resultSet.getString("satuan");
+                stokProduk = resultSet.getString("stok");
+                hargaProduk = resultSet.getString("harga");
             }
             
             connection.closeDatabase();
@@ -357,17 +523,129 @@ public class Transaksi extends javax.swing.JInternalFrame {
                     e.getMessage());
         }
         
-        setValueView(namaProduk, stock);
+        tfJumlah.setText(null);
+        setValueView(namaProduk, stokProduk);
+        
         
     }//GEN-LAST:event_cbxBarcodeActionPerformed
 
     private void tfJumlahKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfJumlahKeyReleased
-        int hargaProduk = Integer.parseInt(harga);
-        int jumlahProduk = Integer.parseInt(tfJumlah.getText());
-        int subtotal = subtotalHarga(hargaProduk, jumlahProduk);
+        int harga = Integer.parseInt(hargaProduk);
+        int jumlah = Integer.parseInt(tfJumlah.getText());
+        int subtotal = subtotalHarga(harga, jumlah);
         
-        tvHarga.setText(String.valueOf(subtotal));
+        tvSubtotal.setText(String.valueOf(subtotal));
     }//GEN-LAST:event_tfJumlahKeyReleased
+
+    private void btnTambahMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahMouseClicked
+        
+        String jumlah = tfJumlah.getText();
+        String barcodeValue = cbxBarcode.getSelectedItem().toString();
+        String hargatSubtotal = tvSubtotal.getText();
+        int subtotal = Integer.parseInt(hargatSubtotal);
+        
+        hargaTotal+= subtotal;
+        System.out.println(hargaTotal);
+        
+        if(jumlah.isEmpty() || barcodeValue.equals("Pilih")){
+            
+             JOptionPane.showMessageDialog(this, "Data Masih ada yang kosong");
+            
+        }else{
+            
+            System.out.println("test");
+            String tableName = "transaksi_sementara";
+            String[] column = {
+                "nomer_barcode",
+                "nama_produk",
+                "kategori_produk",
+                "satuan_produk",
+                "harga_produk",
+                "jumlah"
+            };
+             
+            String[] value = {
+                barcodeValue,
+                namaProduk,
+                kategoriProduk, 
+                satuanProduk, 
+                hargaProduk,
+                jumlah
+            };
+            
+            connection.queryInsert(tableName, column, value);
+            connection.closeDatabase();
+            getTable();
+            substractStockFromTableStock();
+            tfJumlah.setText(null);
+            refreshAll();
+        }
+        
+    }//GEN-LAST:event_btnTambahMouseClicked
+
+    private void btnHapusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusMouseClicked
+        
+        String subtotal = tvSubtotal.getText();
+        String barcode = cbxBarcode.getSelectedItem().toString();
+        boolean confirmation = JOptionPane.showConfirmDialog(
+                this,
+                "Apakah anda yakin ingin menghapus data ini",
+                "Peringatan!!!",
+                JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION;
+        
+        
+        if(confirmation){
+            
+            String nameTable = "transaksi_sementara";
+            String condition = "nomer_barcode = " + barcode;
+            
+            connection.queryDelete(nameTable, condition);
+            connection.closeDatabase();
+            
+            int subtotalHarga = Integer.parseInt(subtotal);
+            hargaTotal -= subtotalHarga;
+            
+            deleteStokFromTableStock();
+        }
+        
+        getTable();
+        tfJumlah.setText(null);
+        refreshAll();
+    }//GEN-LAST:event_btnHapusMouseClicked
+
+    private void tblMenuTransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMenuTransaksiMouseClicked
+        int baris = tblMenuTransaksi.getSelectedRow();
+        int kolomBarcode = 1;
+        int kolomNamaProduk = 2;
+        int kolomHarga = 5;
+        int kolomJumlah = 6;
+        
+        String barcode = 
+                String.valueOf(tblMenuTransaksi.getValueAt(baris, kolomBarcode));
+        String namaBarang = 
+                String.valueOf(tblMenuTransaksi.getValueAt(baris, kolomNamaProduk));
+        String subotalHarga = 
+                String.valueOf(tblMenuTransaksi.getValueAt(baris, kolomHarga));
+        String jumlahBarang = 
+                String.valueOf(tblMenuTransaksi.getValueAt(baris, kolomJumlah));
+        
+        cbxBarcode.setSelectedItem(barcode);
+        tvNamaProduk.setText("Nama : " + namaBarang);
+        tvSubtotal.setText(subotalHarga);
+        tfJumlah.setText(jumlahBarang);
+        
+    }//GEN-LAST:event_tblMenuTransaksiMouseClicked
+
+    private void btnBayarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBayarMouseClicked
+        
+        MenuBayar bayar = new MenuBayar();
+        
+        if(displayMenuBayar < 1){
+            displayMenuBayar++;
+            bayar.setVisible(true);
+            generateUniqueID();
+        }
+    }//GEN-LAST:event_btnBayarMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -377,7 +655,6 @@ public class Transaksi extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> cbxBarcode;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
@@ -388,8 +665,9 @@ public class Transaksi extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblMenuTransaksi;
     private javax.swing.JTextField tfJumlah;
-    private javax.swing.JLabel tvHarga;
-    private javax.swing.JLabel tvJumlah;
+    private javax.swing.JLabel tvID;
     private javax.swing.JLabel tvNamaProduk;
+    private javax.swing.JLabel tvSisa;
+    private javax.swing.JLabel tvSubtotal;
     // End of variables declaration//GEN-END:variables
 }
